@@ -5,7 +5,7 @@ import MovieCard from "../movie-card/movie-card.jsx";
 const Main = (props) => {
 
   const {title, genre, date} = props.filmInfo;
-  const {filmTitles} = props;
+  const {filmTitles, onFilmTitleClick} = props;
 
   return (
     <>
@@ -107,6 +107,7 @@ const Main = (props) => {
                 <MovieCard
                   title={filmTitle}
                   key={filmTitle + index}
+                  onFilmTitleClick={onFilmTitleClick}
                 />
               );
             })}
@@ -142,6 +143,7 @@ Main.propTypes = {
     date: PropTypes.number.isRequired,
   }),
   filmTitles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onFilmTitleClick: PropTypes.func.isRequired,
 };
 
 export default Main;
