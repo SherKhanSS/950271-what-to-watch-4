@@ -39,14 +39,13 @@ it(`checks that when you hover over the card with the movie, the movie informati
         title={title}
         image={image}
         onFilmTitleClick={onFilmTitleClick}
-        onFilmCardMouseEnter={onFilmCardMouseEnter}
+        onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, image})}
       />
   );
 
   const filmCard = main.find(`article.small-movie-card`);
 
-  filmCard.simulate(`mouseenter`, {});
-  // здесь непонятно, таким ли образом надо тестировать событие, что передавать во 2-й аргумент, и что ожидать
+  filmCard.simulate(`mouseenter`);
 
-  expect(onFilmCardMouseEnter.mock.calls.length).toBe(1);
+  expect(onFilmCardMouseEnter).toHaveBeenCalledWith({title, image});
 });
