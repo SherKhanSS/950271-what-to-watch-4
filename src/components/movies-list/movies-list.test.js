@@ -1,12 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Main from "./main.jsx";
-
-const filmInfo = {
-  title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
-  date: 2014,
-};
+import MoviesList from "./movies-list.jsx";
 
 const films = [
   {
@@ -43,10 +37,9 @@ const films = [
   },
 ];
 
-it(`Render Main`, () => {
+it(`Render MoviesList`, () => {
   const tree = renderer
-    .create(<Main
-      filmInfo={filmInfo}
+    .create(<MoviesList
       films={films}
       onFilmTitleClick={() => {}}
     />)

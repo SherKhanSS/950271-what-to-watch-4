@@ -6,12 +6,12 @@ const filmTitleHandler = () => {};
 
 const App = (props) => {
 
-  const {filmInfo, filmTitles} = props;
+  const {filmInfo, films} = props;
 
   return (
     <Main
       filmInfo={filmInfo}
-      filmTitles={filmTitles}
+      films={films}
       onFilmTitleClick={filmTitleHandler}
     />
   );
@@ -19,7 +19,7 @@ const App = (props) => {
 
 App.propTypes = {
   filmInfo: PropTypes.object.isRequired,
-  filmTitles: PropTypes.array.isRequired,
+  films: PropTypes.array.isRequired,
 };
 
 export default App;

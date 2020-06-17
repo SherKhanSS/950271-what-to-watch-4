@@ -1,13 +1,3 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import Main from "./main.jsx";
-
-const filmInfo = {
-  title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
-  date: 2014,
-};
-
 const films = [
   {
     title: `Fantastic Beasts: The Crimes of Grindelwald`,
@@ -43,14 +33,4 @@ const films = [
   },
 ];
 
-it(`Render Main`, () => {
-  const tree = renderer
-    .create(<Main
-      filmInfo={filmInfo}
-      films={films}
-      onFilmTitleClick={() => {}}
-    />)
-    .toJSON();
-
-  expect(tree).toMatchSnapshot();
-});
+export default films;
