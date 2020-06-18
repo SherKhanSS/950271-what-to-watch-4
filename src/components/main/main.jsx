@@ -4,7 +4,7 @@ import MovieList from "../movies-list/movies-list.jsx";
 
 const Main = (props) => {
 
-  const {title, genre, date} = props.filmInfo;
+  const {title, genre, year} = props.film;
   const {films, onFilmTitleClick} = props;
 
   return (
@@ -42,7 +42,7 @@ const Main = (props) => {
               <h2 className="movie-card__title">{title}</h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
-                <span className="movie-card__year">{date}</span>
+                <span className="movie-card__year">{year}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -130,10 +130,10 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  filmInfo: PropTypes.shape({
+  film: PropTypes.shape({
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
-    date: PropTypes.number.isRequired,
+    year: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,

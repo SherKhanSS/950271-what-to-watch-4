@@ -8,7 +8,7 @@ class MovieList extends PureComponent {
 
     this.state = {
       title: null,
-      image: null,
+      poster: null,
     };
   }
 
@@ -21,12 +21,12 @@ class MovieList extends PureComponent {
           return (
             <MovieCard
               title={film.title}
-              image={film.image}
+              poster={film.poster}
               onFilmTitleClick={onFilmTitleClick}
               onFilmCardMouseEnter={() => {
                 this.setState({
                   title: film.title,
-                  image: film.image,
+                  poster: film.poster,
                 });
               }}
               key={film.title + index}
