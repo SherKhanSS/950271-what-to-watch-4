@@ -8,7 +8,7 @@ const film = {
   year: 2014,
   poster: `img/the-grand-budapest-hotel-poster.jpg`,
   cover: `img/bg-the-grand-budapest-hotel.jpg`,
-  ratingScore: `8,9`,
+  ratingScore: 8.9,
   ratingLevel: `Very good`,
   ratingCount: 240,
   textPartOne: `In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.`,

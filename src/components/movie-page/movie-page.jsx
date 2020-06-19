@@ -1,9 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const getRatingLevel = (rating) => {
+  if (rating >= 0 && rating < 3) {
+    return `Bad`;
+  }
+  if (rating < 5) {
+    return `Normal`;
+  }
+  if (rating < 8) {
+    return `Good`;
+  }
+  if (rating < 10) {
+    return `Very good`;
+  }
+  if (rating === 10) {
+    return `Awesome`;
+  }
+  return null;
+};
+
 const MoviePage = (props) => {
 
-  const {title, genre, year, poster, cover, ratingScore, ratingLevel, ratingCount, textPartOne, textPartTwo, director, starring} = props.film;
+  const {title, genre, year, poster, cover, ratingScore, ratingCount, textPartOne, textPartTwo, director, starring} = props.film;
 
   return (
     <>
@@ -102,7 +121,7 @@ const MoviePage = (props) => {
                 <p className="movie-rating__meta">
                   <span
                     className="movie-rating__level">
-                    {ratingLevel}
+                    {getRatingLevel(ratingScore)}
                   </span>
                   <span
                     className="movie-rating__count">
@@ -200,8 +219,7 @@ MoviePage.propTypes = {
     year: PropTypes.number.isRequired,
     poster: PropTypes.string.isRequired,
     cover: PropTypes.string.isRequired,
-    ratingScore: PropTypes.string.isRequired,
-    ratingLevel: PropTypes.string.isRequired,
+    ratingScore: PropTypes.number.isRequired,
     ratingCount: PropTypes.number.isRequired,
     textPartOne: PropTypes.string.isRequired,
     textPartTwo: PropTypes.string.isRequired,

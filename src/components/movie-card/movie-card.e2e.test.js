@@ -10,7 +10,7 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`Should film title be pressed`, () => {
+it(`When you click on a title, a callback is called with the value of the title.`, () => {
   const onFilmTitleClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
 
@@ -23,15 +23,33 @@ it(`Should film title be pressed`, () => {
       />
   );
 
-  const filmTitle = main.find(`article.small-movie-card`);
+  const filmTitle = main.find(`h3.small-movie-card__title`);
 
-  filmTitle.simulate(`click`);
+  filmTitle.simulate(`click`, {
+    preventDefault: onFilmTitleClick,
+  });
 
   expect(onFilmTitleClick).toHaveBeenCalledWith({title});
+});
 
-  // filmTitle.props().onClick();
+it(`When you click on a poster, a callback is called with the title value of the movie.`, () => {
+  const onFilmTitleClick = jest.fn();
+  const onFilmCardMouseEnter = jest.fn();
 
-  // expect(onFilmTitleClick.mock.calls.length).toBe(1);
+  const main = shallow(
+      <MovieCard
+        title={title}
+        poster={poster}
+        onFilmTitleClick={() => onFilmTitleClick({title})}
+        onFilmCardMouseEnter={onFilmCardMouseEnter}
+      />
+  );
+
+  const filmImage = main.find(`div.small-movie-card__image`);
+
+  filmImage.simulate(`click`);
+
+  expect(onFilmTitleClick).toHaveBeenCalledWith({title});
 });
 
 it(`checks that when you hover over the card with the movie, the movie information gets to the handler`, () => {
