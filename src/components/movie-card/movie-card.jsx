@@ -3,17 +3,27 @@ import PropTypes from "prop-types";
 
 const MovieCard = (props) => {
 
-  const {title, image, onFilmTitleClick, onFilmCardMouseEnter} = props;
+  const {title, poster, onFilmTitleClick, onFilmCardMouseEnter} = props;
 
   return (
     <article
       onMouseEnter={onFilmCardMouseEnter}
       className="small-movie-card catalog__movies-card">
-      <div className="small-movie-card__image">
-        <img src={image} alt={title} width="280" height="175" />
+      <div
+        onClick={() => {
+          onFilmTitleClick(title);
+        }}
+        className="small-movie-card__image">
+        <img
+          src={poster}
+          alt={title}
+          width="280" height="175" />
       </div>
       <h3
-        onClick={onFilmTitleClick}
+        onClick={(evt) => {
+          evt.preventDefault();
+          onFilmTitleClick(title);
+        }}
         className="small-movie-card__title">
         <a className="small-movie-card__link" href="movie-page.html">{title}</a>
       </h3>
@@ -23,7 +33,7 @@ const MovieCard = (props) => {
 
 MovieCard.propTypes = {
   title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
 };

@@ -4,30 +4,52 @@ import Adapter from "enzyme-adapter-react-16";
 import MovieCard from "./movie-card.jsx";
 
 const title = `Bohemian Rhapsody`;
-const image = `img/bohemian-rhapsody.jpg`;
+const poster = `img/bohemian-rhapsody.jpg`;
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`Should film title be pressed`, () => {
+it(`When you click on a title, a callback is called with the value of the title.`, () => {
   const onFilmTitleClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
 
   const main = shallow(
       <MovieCard
         title={title}
-        image={image}
-        onFilmTitleClick={onFilmTitleClick}
+        poster={poster}
+        onFilmTitleClick={() => onFilmTitleClick({title})}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
       />
   );
 
   const filmTitle = main.find(`h3.small-movie-card__title`);
 
-  filmTitle.props().onClick();
+  filmTitle.simulate(`click`, {
+    preventDefault: onFilmTitleClick,
+  });
 
-  expect(onFilmTitleClick.mock.calls.length).toBe(1);
+  expect(onFilmTitleClick).toHaveBeenCalledWith({title});
+});
+
+it(`When you click on a poster, a callback is called with the title value of the movie.`, () => {
+  const onFilmTitleClick = jest.fn();
+  const onFilmCardMouseEnter = jest.fn();
+
+  const main = shallow(
+      <MovieCard
+        title={title}
+        poster={poster}
+        onFilmTitleClick={() => onFilmTitleClick({title})}
+        onFilmCardMouseEnter={onFilmCardMouseEnter}
+      />
+  );
+
+  const filmImage = main.find(`div.small-movie-card__image`);
+
+  filmImage.simulate(`click`);
+
+  expect(onFilmTitleClick).toHaveBeenCalledWith({title});
 });
 
 it(`checks that when you hover over the card with the movie, the movie information gets to the handler`, () => {
@@ -37,9 +59,9 @@ it(`checks that when you hover over the card with the movie, the movie informati
   const main = shallow(
       <MovieCard
         title={title}
-        image={image}
+        poster={poster}
         onFilmTitleClick={onFilmTitleClick}
-        onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, image})}
+        onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
       />
   );
 
@@ -47,5 +69,5 @@ it(`checks that when you hover over the card with the movie, the movie informati
 
   filmCard.simulate(`mouseenter`);
 
-  expect(onFilmCardMouseEnter).toHaveBeenCalledWith({title, image});
+  expect(onFilmCardMouseEnter).toHaveBeenCalledWith({title, poster});
 });
