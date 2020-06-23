@@ -126,3 +126,4 @@ export const film = {
   director: `Wes Andreson`,
   starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
 };
+
