@@ -22,6 +22,7 @@ class MovieList extends PureComponent {
             <MovieCard
               title={film.title}
               poster={film.poster}
+              preview={film.preview}
               onFilmTitleClick={onFilmTitleClick}
               onFilmCardMouseEnter={() => {
                 this.setState({

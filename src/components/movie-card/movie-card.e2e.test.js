@@ -5,6 +5,7 @@ import MovieCard from "./movie-card.jsx";
 
 const title = `Bohemian Rhapsody`;
 const poster = `img/bohemian-rhapsody.jpg`;
+const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -18,6 +19,7 @@ it(`When you click on a title, a callback is called with the value of the title.
       <MovieCard
         title={title}
         poster={poster}
+        preview={preview}
         onFilmTitleClick={() => onFilmTitleClick({title})}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
       />
@@ -40,6 +42,7 @@ it(`When you click on a poster, a callback is called with the title value of the
       <MovieCard
         title={title}
         poster={poster}
+        preview={preview}
         onFilmTitleClick={() => onFilmTitleClick({title})}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
       />
@@ -60,6 +63,7 @@ it(`checks that when you hover over the card with the movie, the movie informati
       <MovieCard
         title={title}
         poster={poster}
+        preview={preview}
         onFilmTitleClick={onFilmTitleClick}
         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
       />
@@ -71,3 +75,29 @@ it(`checks that when you hover over the card with the movie, the movie informati
 
   expect(onFilmCardMouseEnter).toHaveBeenCalledWith({title, poster});
 });
+
+
+// new
+
+// как писать тест пока непонятно
+
+// it(`checks that when you hover over a movie card, the state changes to true`, () => {
+//   const onFilmTitleClick = jest.fn();
+//   const onFilmCardMouseEnter = jest.fn();
+
+//   const main = shallow(
+//       <MovieCard
+//         title={title}
+//         poster={poster}
+//         preview={preview}
+//         onFilmTitleClick={onFilmTitleClick}
+//         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
+//       />
+//   );
+
+//   const filmCard = main.find(`article.small-movie-card`);
+
+//   filmCard.simulate(`mouseenter`);
+
+//   expect(onFilmCardMouseEnter).toHaveBeenCalledWith({});
+// });

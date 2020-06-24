@@ -4,15 +4,21 @@ import MovieCard from "./movie-card.jsx";
 
 const title = `Bohemian Rhapsody`;
 const poster = `img/bohemian-rhapsody.jpg`;
+const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
 it(`Render MovieCard`, () => {
   const tree = renderer
     .create(<MovieCard
       title={title}
       poster={poster}
+      preview={preview}
       onFilmTitleClick={() => {}}
       onFilmCardMouseEnter={() => {}}
-    />)
+    />, {
+      createNodeMock: () => {
+        return {};
+      }
+    })
     .toJSON();
 
   expect(tree).toMatchSnapshot();
