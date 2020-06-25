@@ -14,14 +14,17 @@ Enzyme.configure({
 it(`When you click on a title, a callback is called with the value of the title.`, () => {
   const onFilmTitleClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
+  const onFilmCardMouseLeave = jest.fn();
 
   const main = shallow(
       <MovieCard
         title={title}
         poster={poster}
         preview={preview}
+        isPlaying={false}
         onFilmTitleClick={() => onFilmTitleClick({title})}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
+        onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
   );
 
@@ -37,14 +40,17 @@ it(`When you click on a title, a callback is called with the value of the title.
 it(`When you click on a poster, a callback is called with the title value of the movie.`, () => {
   const onFilmTitleClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
+  const onFilmCardMouseLeave = jest.fn();
 
   const main = shallow(
       <MovieCard
         title={title}
         poster={poster}
         preview={preview}
+        isPlaying={false}
         onFilmTitleClick={() => onFilmTitleClick({title})}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
+        onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
   );
 
@@ -58,14 +64,17 @@ it(`When you click on a poster, a callback is called with the title value of the
 it(`checks that when you hover over the card with the movie, the movie information gets to the handler`, () => {
   const onFilmTitleClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
+  const onFilmCardMouseLeave = jest.fn();
 
   const main = shallow(
       <MovieCard
         title={title}
         poster={poster}
         preview={preview}
+        isPlaying={false}
         onFilmTitleClick={onFilmTitleClick}
         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
+        onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
   );
 
@@ -76,28 +85,26 @@ it(`checks that when you hover over the card with the movie, the movie informati
   expect(onFilmCardMouseEnter).toHaveBeenCalledWith({title, poster});
 });
 
+it(`checks that when the cursor leaves the card, a callback is called`, () => {
+  const onFilmTitleClick = jest.fn();
+  const onFilmCardMouseEnter = jest.fn();
+  const onFilmCardMouseLeave = jest.fn();
 
-// new
+  const main = shallow(
+      <MovieCard
+        title={title}
+        poster={poster}
+        preview={preview}
+        isPlaying={false}
+        onFilmTitleClick={onFilmTitleClick}
+        onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
+        onFilmCardMouseLeave={onFilmCardMouseLeave}
+      />
+  );
 
-// как писать тест пока непонятно
+  const filmCard = main.find(`article.small-movie-card`);
 
-// it(`checks that when you hover over a movie card, the state changes to true`, () => {
-//   const onFilmTitleClick = jest.fn();
-//   const onFilmCardMouseEnter = jest.fn();
+  filmCard.simulate(`mouseleave`);
 
-//   const main = shallow(
-//       <MovieCard
-//         title={title}
-//         poster={poster}
-//         preview={preview}
-//         onFilmTitleClick={onFilmTitleClick}
-//         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
-//       />
-//   );
-
-//   const filmCard = main.find(`article.small-movie-card`);
-
-//   filmCard.simulate(`mouseenter`);
-
-//   expect(onFilmCardMouseEnter).toHaveBeenCalledWith({});
-// });
+  expect(onFilmCardMouseLeave.mock.calls.length).toBe(1);
+});

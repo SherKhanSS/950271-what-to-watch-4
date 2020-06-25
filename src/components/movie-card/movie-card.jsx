@@ -5,59 +5,32 @@ import VideoPlayer from "../video-player/video-player.jsx";
 class MovieCard extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isPlaying: false,
-    };
   }
 
   render() {
-    const {title, poster, preview, onFilmTitleClick, onFilmCardMouseEnter} = this.props;
-    const PLAY_DELAY = 1000;
-    let timerId = null;
-
-    const videoPlay = () => {
-      this.setState({
-        isPlaying: true,
-      });
-    };
-
-    const videoStop = () => {
-      this.setState({
-        isPlaying: false,
-      });
-    };
+    const {title, poster, preview, isPlaying, onFilmTitleClick, onFilmCardMouseEnter, onFilmCardMouseLeave} = this.props;
 
     return (
       <article
-        onMouseEnter={() => {
-          onFilmCardMouseEnter();
-          // без вызова этого колбека onFilmCardMouseEnter() из пропсов
-          // все работает как ожидается, с ним же начинают происходить траблы,
-          // значение state isPlaying не всегда сбрасывается в false,
-          // особенно если начать выодить мышью по всем карточкам.
-          // Почему - не понял
-          timerId = setTimeout(videoPlay, PLAY_DELAY);
-        }}
-        onMouseLeave={() => {
-          clearTimeout(timerId);
-          videoStop();
-        }}
+        onMouseEnter={onFilmCardMouseEnter}
+        onMouseLeave={onFilmCardMouseLeave}
         className="small-movie-card catalog__movies-card">
         <div
           onClick={() => {
             onFilmTitleClick(title);
           }}
           className="small-movie-card__image">
-          {/* <img
-          src={poster}
-          alt={title}
-          width="280" height="175" /> */}
-          <VideoPlayer
-            poster={poster}
-            preview={preview}
-            isPlaying={this.state.isPlaying}
-          />
+          {isPlaying ? (
+            <VideoPlayer
+              poster={poster}
+              preview={preview}
+            />
+          ) : (
+            <img
+              src={poster}
+              alt={title}
+              width="280" height="175" />
+          )}
         </div>
         <h3
           onClick={(evt) => {
@@ -77,8 +50,10 @@ MovieCard.propTypes = {
   title: PropTypes.string.isRequired,
   poster: PropTypes.string.isRequired,
   preview: PropTypes.string.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
+  onFilmCardMouseLeave: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

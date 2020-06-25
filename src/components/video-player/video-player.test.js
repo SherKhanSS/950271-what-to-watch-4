@@ -10,7 +10,6 @@ it(`Render VideoPlayer`, () => {
     .create(<VideoPlayer
       poster={poster}
       preview={preview}
-      isPlaying={false}
     />, {
       createNodeMock: () => {
         return {};

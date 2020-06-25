@@ -10,9 +10,11 @@ exports[`Render MovieCard 1`] = `
     className="small-movie-card__image"
     onClick={[Function]}
   >
-    <video
-      autoPlay={true}
-      muted={true}
+    <img
+      alt="Bohemian Rhapsody"
+      height="175"
+      src="img/bohemian-rhapsody.jpg"
+      width="280"
     />
   </div>
   <h3

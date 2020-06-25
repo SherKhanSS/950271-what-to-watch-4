@@ -13,9 +13,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Fantastic Beasts: The Crimes of Grindelwald"
+        height="175"
+        src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -39,9 +41,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Bohemian Rhapsody"
+        height="175"
+        src="img/bohemian-rhapsody.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -65,9 +69,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Macbeth"
+        height="175"
+        src="img/macbeth.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -91,9 +97,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Aviator"
+        height="175"
+        src="img/aviator.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -117,9 +125,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="We need to talk about Kevin"
+        height="175"
+        src="img/we-need-to-talk-about-kevin.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -143,9 +153,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="What We Do in the Shadows"
+        height="175"
+        src="img/what-we-do-in-the-shadows.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -169,9 +181,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Revenant"
+        height="175"
+        src="img/revenant.jpg"
+        width="280"
       />
     </div>
     <h3
@@ -195,9 +209,11 @@ exports[`Render MoviesList 1`] = `
       className="small-movie-card__image"
       onClick={[Function]}
     >
-      <video
-        autoPlay={true}
-        muted={true}
+      <img
+        alt="Johnny English"
+        height="175"
+        src="img/johnny-english.jpg"
+        width="280"
       />
     </div>
     <h3

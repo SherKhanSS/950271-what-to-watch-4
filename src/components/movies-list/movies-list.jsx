@@ -9,11 +9,13 @@ class MovieList extends PureComponent {
     this.state = {
       title: null,
       poster: null,
+      timerId: null,
     };
   }
 
   render() {
     const {films, onFilmTitleClick} = this.props;
+    const PLAY_DELAY = 1000;
 
     return (
       <div className="catalog__movies-list">
@@ -23,11 +25,24 @@ class MovieList extends PureComponent {
               title={film.title}
               poster={film.poster}
               preview={film.preview}
+              isPlaying={(this.state.title === film.title) ? true : false}
               onFilmTitleClick={onFilmTitleClick}
               onFilmCardMouseEnter={() => {
+                const timer = setTimeout(() => {
+                  this.setState({
+                    title: film.title,
+                    poster: film.poster,
+                  });
+                }, PLAY_DELAY);
                 this.setState({
-                  title: film.title,
-                  poster: film.poster,
+                  timerId: timer,
+                });
+              }}
+              onFilmCardMouseLeave={() => {
+                this.setState({
+                  title: null,
+                  poster: null,
+                  timerId: null,
                 });
               }}
               key={film.title + index}
