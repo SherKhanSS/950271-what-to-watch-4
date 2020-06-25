@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render VideoPlayer 1`] = `
+<video
+  autoPlay={true}
+  muted={true}
+/>
+`;

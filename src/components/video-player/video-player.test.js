@@ -1,21 +1,15 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import MovieCard from "./movie-card.jsx";
+import VideoPlayer from "./video-player.jsx";
 
-const title = `Bohemian Rhapsody`;
 const poster = `img/bohemian-rhapsody.jpg`;
 const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
-it(`Render MovieCard`, () => {
+it(`Render VideoPlayer`, () => {
   const tree = renderer
-    .create(<MovieCard
-      title={title}
+    .create(<VideoPlayer
       poster={poster}
       preview={preview}
-      isPlaying={false}
-      onFilmTitleClick={() => {}}
-      onFilmCardMouseEnter={() => {}}
-      onFilmCardMouseLeave={() => {}}
     />, {
       createNodeMock: () => {
         return {};
