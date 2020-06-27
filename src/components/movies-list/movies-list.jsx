@@ -44,7 +44,7 @@ class MovieList extends PureComponent {
                   poster: null,
                   timerId: null,
                 });
-                const {timerId} = this.state.timerId;
+                const {timerId} = this.state;
                 clearTimeout(timerId);
               }}
               key={film.title + index}

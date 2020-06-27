@@ -1,40 +1,32 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: null,
-    };
-  }
-
   _renderApp() {
-    const {film, films} = this.props;
-    const {title} = this.state;
+    const {films, genres, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
+    const film = films[0];
 
-    if (title === null) {
+    if (activeFilm === null) {
       return (
         <Main
           film={film}
-          films={films}
-          onFilmTitleClick={(filmTitle) => {
-            this.setState({
-              title: filmTitle,
-            });
-          }}
+          films={films.slice(0, 8)}
+          genres={genres}
+          onGenresItemClick={onGenresItemClick}
+          onFilmTitleClick={onFilmTitleClick}
         />
       );
     }
 
-    if (title) {
+    if (activeFilm) {
       return (
         <MoviePage
-          film={films.find((movie) => movie.title === title)}
+          film={films.find((movie) => movie.title === activeFilm)}
         />
       );
     }
@@ -43,7 +35,7 @@ class App extends PureComponent {
   }
 
   _renderMoviePage() {
-    const {film} = this.props;
+    const film = this.props.films[0];
 
     return (
       <MoviePage
@@ -70,8 +62,30 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  film: PropTypes.object.isRequired,
   films: PropTypes.array.isRequired,
+  genres: PropTypes.array.isRequired,
+  activeFilm: PropTypes.any,
+  onGenresItemClick: PropTypes.func.isRequired,
+  onFilmTitleClick: PropTypes.func.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  genre: state.genre,
+  films: state.films,
+  activeFilm: state.activeFilm,
+  genres: state.genres,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenresItemClick(genre) {
+    dispatch(ActionCreator.changCurrentGenre(genre));
+    dispatch(ActionCreator.getFilms(genre));
+  },
+
+  onFilmTitleClick(filmTitle) {
+    dispatch(ActionCreator.changActiveFilm(filmTitle));
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
