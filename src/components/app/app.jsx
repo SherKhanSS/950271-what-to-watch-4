@@ -8,7 +8,7 @@ import MoviePage from "../movie-page/movie-page.jsx";
 
 class App extends PureComponent {
   _renderApp() {
-    const {films, genres, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
+    const {films, genres, curretGenre, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
     const film = films[0];
 
     if (activeFilm === null) {
@@ -17,6 +17,7 @@ class App extends PureComponent {
           film={film}
           films={films.slice(0, 8)}
           genres={genres}
+          currentGenre={curretGenre}
           onGenresItemClick={onGenresItemClick}
           onFilmTitleClick={onFilmTitleClick}
         />
@@ -64,13 +65,14 @@ class App extends PureComponent {
 App.propTypes = {
   films: PropTypes.array.isRequired,
   genres: PropTypes.array.isRequired,
+  curretGenre: PropTypes.string.isRequired,
   activeFilm: PropTypes.any,
   onGenresItemClick: PropTypes.func.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
+  curretGenre: state.curretGenre,
   films: state.films,
   activeFilm: state.activeFilm,
   genres: state.genres,
@@ -78,12 +80,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onGenresItemClick(genre) {
-    dispatch(ActionCreator.changCurrentGenre(genre));
-    dispatch(ActionCreator.getFilms(genre));
+    dispatch(ActionCreator.changeCurrentGenre(genre));
   },
 
   onFilmTitleClick(filmTitle) {
-    dispatch(ActionCreator.changActiveFilm(filmTitle));
+    dispatch(ActionCreator.changeActiveFilm(filmTitle));
   },
 });
 

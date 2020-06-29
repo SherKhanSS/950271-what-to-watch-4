@@ -6,7 +6,7 @@ import MovieList from "../movies-list/movies-list.jsx";
 const Main = (props) => {
 
   const {title, genre, year} = props.film;
-  const {films, genres, onFilmTitleClick, onGenresItemClick} = props;
+  const {films, genres, currentGenre, onFilmTitleClick, onGenresItemClick} = props;
 
   return (
     <>
@@ -71,11 +71,13 @@ const Main = (props) => {
 
           <GenresList
             genres={genres}
+            currentGenre={currentGenre}
             onGenresItemClick={onGenresItemClick}
           />
 
           <MovieList
             films={films}
+            currentGenre={currentGenre}
             onFilmTitleClick={onFilmTitleClick}
           />
 
@@ -110,6 +112,7 @@ Main.propTypes = {
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   genres: PropTypes.array.isRequired,
+  currentGenre: PropTypes.string.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
 };

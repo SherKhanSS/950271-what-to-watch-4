@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const GenresList = (props) => {
 
-  const {genres, onGenresItemClick} = props;
+  const {genres, currentGenre, onGenresItemClick} = props;
 
   return (
     <ul className="catalog__genres-list">
@@ -15,7 +15,8 @@ const GenresList = (props) => {
               onGenresItemClick(genre);
             }}
             key={genre + index}
-            className="catalog__genres-item catalog__genres-item--active">
+            className={`catalog__genres-item`
+            + (genre === currentGenre ? ` catalog__genres-item--active` : ``)}>
             <a href="#" className="catalog__genres-link">{genre}</a>
           </li>
         );
@@ -26,6 +27,7 @@ const GenresList = (props) => {
 
 GenresList.propTypes = {
   genres: PropTypes.array.isRequired,
+  currentGenre: PropTypes.string.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
 };
 

@@ -51,11 +51,17 @@ const films = [
   },
 ];
 
+const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
+const currentGenre = `All genres`;
+
 it(`Render Main`, () => {
   const tree = renderer
     .create(<Main
       film={film}
       films={films}
+      genres={genres}
+      currentGenre={currentGenre}
+      onGenresItemClick={() => {}}
       onFilmTitleClick={() => {}}
     />, {
       createNodeMock: () => {

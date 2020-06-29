@@ -14,12 +14,20 @@ class MovieList extends PureComponent {
   }
 
   render() {
-    const {films, onFilmTitleClick} = this.props;
+    const {films, currentGenre, onFilmTitleClick} = this.props;
     const PLAY_DELAY = 1000;
+
+    const getFilmsByGenre = () => {
+      if (currentGenre === `All genres`) {
+        return films;
+      }
+
+      return films.filter((film) => film.genre === currentGenre);
+    };
 
     return (
       <div className="catalog__movies-list">
-        {films.map((film, index) => {
+        {getFilmsByGenre().map((film, index) => {
           return (
             <MovieCard
               title={film.title}
@@ -58,6 +66,7 @@ class MovieList extends PureComponent {
 
 MovieList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentGenre: PropTypes.string.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
 };
 
