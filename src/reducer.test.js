@@ -1,25 +1,4 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import {Provider} from "react-redux";
-import configureStore from "redux-mock-store";
-import {App} from "./app.jsx";
-
-const mockStore = configureStore([]);
-
-const film = {
-  title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
-  year: 2014,
-  poster: `img/the-grand-budapest-hotel-poster.jpg`,
-  cover: `img/bg-the-grand-budapest-hotel.jpg`,
-  ratingScore: 8.9,
-  ratingLevel: `Very good`,
-  ratingCount: 240,
-  textPartOne: `In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.`,
-  textPartTwo: `Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.`,
-  director: `Wes Andreson`,
-  starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
-};
+import {reducer, ActionType} from "./reducer.js";
 
 const films = [
   {
@@ -158,34 +137,49 @@ const films = [
   },
 ];
 
-const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
-const curretGenre = `All genres`;
+const genres = [`All genres`, `Drama`, `Sci-Fi`, `Comedies`, `Crime`, `Documentary`, `Horror`, `Thrillers`, `Kids & Family`, `Romance`];
+const GENRE_DEFAULT = `All genres`;
 
-it(`Render App`, () => {
-  const store = mockStore({
-    curretGenre,
+
+it(`Reducer without additional parameters should return initial state`, () => {
+  expect(reducer(void 0, {})).toEqual({
+    curretGenre: GENRE_DEFAULT,
     activeFilm: null,
     films,
     genres,
   });
+});
 
-  const tree = renderer
-    .create(
-        <Provider store={store}>
-          <App
-            film={film}
-            films={films}
-            genres={genres}
-            curretGenre={curretGenre}
-            onGenresItemClick={() => {}}
-            onFilmTitleClick={() => {}}
-          />
-        </Provider>, {
-          createNodeMock: () => {
-            return {};
-          }
-        })
-    .toJSON();
+it(`Reducer should change the genre to a given value`, () => {
+  expect(reducer({
+    curretGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    films,
+    genres,
+  }, {
+    type: ActionType.CHANGE_FILTER_BY_GENRE,
+    payload: `Drama`,
+  })).toEqual({
+    curretGenre: `Drama`,
+    activeFilm: null,
+    films,
+    genres,
+  });
+});
 
-  expect(tree).toMatchSnapshot();
+it(`Reducer should change the movie to a given value`, () => {
+  expect(reducer({
+    curretGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    films,
+    genres,
+  }, {
+    type: ActionType.SET_ACTIVE_FILM,
+    payload: `The Grand Budapest Hotel`,
+  })).toEqual({
+    curretGenre: GENRE_DEFAULT,
+    activeFilm: `The Grand Budapest Hotel`,
+    films,
+    genres,
+  });
 });

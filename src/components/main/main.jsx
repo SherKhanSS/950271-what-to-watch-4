@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import GenresList from "../genres-list/genres-list.jsx";
 import MovieList from "../movies-list/movies-list.jsx";
 
 const Main = (props) => {
 
   const {title, genre, year} = props.film;
-  const {films, onFilmTitleClick} = props;
+  const {films, genres, currentGenre, onFilmTitleClick, onGenresItemClick} = props;
 
   return (
     <>
@@ -68,41 +69,15 @@ const Main = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenresList
+            genres={genres}
+            currentGenre={currentGenre}
+            onGenresItemClick={onGenresItemClick}
+          />
 
           <MovieList
             films={films}
+            currentGenre={currentGenre}
             onFilmTitleClick={onFilmTitleClick}
           />
 
@@ -136,7 +111,10 @@ Main.propTypes = {
     year: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  genres: PropTypes.array.isRequired,
+  currentGenre: PropTypes.string.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
+  onGenresItemClick: PropTypes.func.isRequired,
 };
 
 export default Main;
