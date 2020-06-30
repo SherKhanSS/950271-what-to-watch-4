@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import GenresList from "../genres-list/genres-list.jsx";
-import MovieList from "../movies-list/movies-list.jsx";
+import MoviesList from "../movies-list/movies-list.jsx";
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+
+// console.log(withMoviesList);
+
+const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
 
@@ -75,7 +80,7 @@ const Main = (props) => {
             onGenresItemClick={onGenresItemClick}
           />
 
-          <MovieList
+          <MoviesListWrapped
             films={films}
             currentGenre={currentGenre}
             onFilmTitleClick={onFilmTitleClick}
