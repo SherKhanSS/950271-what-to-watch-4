@@ -10,7 +10,7 @@ const extend = (a, b) => {
 const genres = [GENRE_DEFAULT, ...new Set(films.map((film) => film.genre).slice(0, MAX_GENRES_LENGHT))];
 
 const initialState = {
-  curretGenre: GENRE_DEFAULT,
+  currentGenre: GENRE_DEFAULT,
   activeFilm: null,
   films,
   genres,
@@ -39,7 +39,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_FILTER_BY_GENRE:
       return extend(state, {
-        curretGenre: action.payload,
+        currentGenre: action.payload,
       });
 
     case ActionType.SET_ACTIVE_FILM:

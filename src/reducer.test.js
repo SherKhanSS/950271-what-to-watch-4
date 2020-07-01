@@ -1,10 +1,50 @@
 import {reducer, ActionType} from "./reducer.js";
 
-const films = [
+const comments = [
+  {
+    text: `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director&apos;s funniest and most exquisitely designed movies in years.`,
+    author: `Kate Muir`,
+    date: `2016-12-24`,
+    rating: `8,9`,
+  },
+  {
+    text: `Anderson&apos;s films are too precious for some, but for those of us willing to lose ourselves in them, they&apos;re a delight. &quot;The Grand Budapest Hotel&quot; is no different, except that he has added a hint of gravitas to the mix, improving the recipe.`,
+    author: `Bill Goodykoontz`,
+    date: `2015-11-18`,
+    rating: `8,0`,
+  },
+  {
+    text: `I didn&apos;t find it amusing, and while I can appreciate the creativity, it&apos;s an hour and 40 minutes I wish I could take back.`,
+    author: `Amanda Greever`,
+    date: `2015-11-18`,
+    rating: `8,0`,
+  },
+  {
+    text: `The mannered, madcap proceedings are often delightful, occasionally silly, and here and there, gruesome and/or heartbreaking.`,
+    author: `Matthew Lickona`,
+    date: `2016-12-20`,
+    rating: `7,2`,
+  },
+  {
+    text: `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director&apos;s funniest and most exquisitely designed movies in years.`,
+    author: `Kate Muir`,
+    date: `2016-12-24`,
+    rating: `8,9`,
+  },
+  {
+    text: `I didn&apos;t find it amusing, and while I can appreciate the creativity, it&apos;s an hour and 40 minutes I wish I could take back.`,
+    author: `Amanda Greever`,
+    date: `2015-11-18`,
+    rating: `8,0`,
+  },
+];
+
+export const films = [
   {
     title: `The Grand Budapest Hotel`,
     genre: `Drama`,
     year: 2014,
+    runTime: `1h 39m`,
     poster: `img/the-grand-budapest-hotel-poster.jpg`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 8.9,
@@ -14,6 +54,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    comments,
   },
   {
     title: `Fantastic Beasts: The Crimes of Grindelwald`,
@@ -21,6 +62,7 @@ const films = [
 
     genre: `Sci-Fi`,
     year: 2014,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 8.9,
     ratingCount: 240,
@@ -29,6 +71,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    comments,
   },
   {
     title: `Bohemian Rhapsody`,
@@ -36,6 +79,7 @@ const films = [
 
     genre: `Comedies`,
     year: 2020,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 5.4,
     ratingCount: 140,
@@ -44,6 +88,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    comments,
   },
   {
     title: `Macbeth`,
@@ -51,6 +96,7 @@ const films = [
 
     genre: `Crime`,
     year: 2019,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 9.9,
     ratingCount: 20,
@@ -59,6 +105,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    comments,
   },
   {
     title: `Aviator`,
@@ -66,6 +113,7 @@ const films = [
 
     genre: `Documentary`,
     year: 2010,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 1.9,
     ratingCount: 1240,
@@ -74,6 +122,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    comments,
   },
   {
     title: `We need to talk about Kevin`,
@@ -81,6 +130,7 @@ const films = [
 
     genre: `Horror`,
     year: 2004,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 4.9,
     ratingCount: 40,
@@ -89,6 +139,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    comments,
   },
   {
     title: `What We Do in the Shadows`,
@@ -96,6 +147,7 @@ const films = [
 
     genre: `Thrillers`,
     year: 2010,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 3.9,
     ratingCount: 280,
@@ -104,6 +156,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    comments,
   },
   {
     title: `Revenant`,
@@ -111,6 +164,7 @@ const films = [
 
     genre: `Kids & Family`,
     year: 2019,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 7.9,
     ratingCount: 20,
@@ -119,6 +173,7 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    comments,
   },
   {
     title: `Johnny English`,
@@ -126,6 +181,7 @@ const films = [
 
     genre: `Romance`,
     year: 1014,
+    runTime: `1h 39m`,
     cover: `img/bg-the-grand-budapest-hotel.jpg`,
     ratingScore: 9.9,
     ratingCount: 2400,
@@ -134,8 +190,10 @@ const films = [
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    comments,
   },
 ];
+
 
 const genres = [`All genres`, `Drama`, `Sci-Fi`, `Comedies`, `Crime`, `Documentary`, `Horror`, `Thrillers`, `Kids & Family`, `Romance`];
 const GENRE_DEFAULT = `All genres`;
@@ -143,7 +201,7 @@ const GENRE_DEFAULT = `All genres`;
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
-    curretGenre: GENRE_DEFAULT,
+    currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     films,
     genres,
@@ -152,7 +210,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
 
 it(`Reducer should change the genre to a given value`, () => {
   expect(reducer({
-    curretGenre: GENRE_DEFAULT,
+    currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     films,
     genres,
@@ -160,7 +218,7 @@ it(`Reducer should change the genre to a given value`, () => {
     type: ActionType.CHANGE_FILTER_BY_GENRE,
     payload: `Drama`,
   })).toEqual({
-    curretGenre: `Drama`,
+    currentGenre: `Drama`,
     activeFilm: null,
     films,
     genres,
@@ -169,7 +227,7 @@ it(`Reducer should change the genre to a given value`, () => {
 
 it(`Reducer should change the movie to a given value`, () => {
   expect(reducer({
-    curretGenre: GENRE_DEFAULT,
+    currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     films,
     genres,
@@ -177,7 +235,7 @@ it(`Reducer should change the movie to a given value`, () => {
     type: ActionType.SET_ACTIVE_FILM,
     payload: `The Grand Budapest Hotel`,
   })).toEqual({
-    curretGenre: GENRE_DEFAULT,
+    currentGenre: GENRE_DEFAULT,
     activeFilm: `The Grand Budapest Hotel`,
     films,
     genres,

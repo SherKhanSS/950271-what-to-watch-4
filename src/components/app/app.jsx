@@ -8,7 +8,7 @@ import MoviePage from "../movie-page/movie-page.jsx";
 
 class App extends PureComponent {
   _renderApp() {
-    const {films, genres, curretGenre, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
+    const {films, genres, currentGenre, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
     const film = films[0];
 
     if (activeFilm === null) {
@@ -17,7 +17,7 @@ class App extends PureComponent {
           film={film}
           films={films.slice(0, 8)}
           genres={genres}
-          currentGenre={curretGenre}
+          currentGenre={currentGenre}
           onGenresItemClick={onGenresItemClick}
           onFilmTitleClick={onFilmTitleClick}
         />
@@ -28,6 +28,9 @@ class App extends PureComponent {
       return (
         <MoviePage
           film={films.find((movie) => movie.title === activeFilm)}
+          films={films}
+          currentGenre={currentGenre}
+          onFilmTitleClick={onFilmTitleClick}
         />
       );
     }
@@ -37,10 +40,14 @@ class App extends PureComponent {
 
   _renderMoviePage() {
     const film = this.props.films[0];
+    const {films, currentGenre, onFilmTitleClick} = this.props;
 
     return (
       <MoviePage
         film={film}
+        films={films}
+        currentGenre={currentGenre}
+        onFilmTitleClick={onFilmTitleClick}
       />
     );
   }
@@ -65,14 +72,14 @@ class App extends PureComponent {
 App.propTypes = {
   films: PropTypes.array.isRequired,
   genres: PropTypes.array.isRequired,
-  curretGenre: PropTypes.string.isRequired,
+  currentGenre: PropTypes.string,
   activeFilm: PropTypes.any,
   onGenresItemClick: PropTypes.func.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  curretGenre: state.curretGenre,
+  currentGenre: state.currentGenre,
   films: state.films,
   activeFilm: state.activeFilm,
   genres: state.genres,
