@@ -53,8 +53,8 @@ const withMoviesList = (Component) => {
 
   WithMoviesList.propTypes = {
     title: PropTypes.any,
-    onFilmCardMouseEnter: PropTypes.func.isRequired,
-    onFilmCardMouseLeave: PropTypes.func.isRequired,
+    onFilmCardMouseEnter: PropTypes.any,
+    onFilmCardMouseLeave: PropTypes.any,
   };
 
   return WithMoviesList;

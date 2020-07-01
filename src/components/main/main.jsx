@@ -4,8 +4,6 @@ import GenresList from "../genres-list/genres-list.jsx";
 import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 
-// console.log(withMoviesList);
-
 const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
