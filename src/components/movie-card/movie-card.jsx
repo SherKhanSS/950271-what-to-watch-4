@@ -12,7 +12,10 @@ class MovieCard extends PureComponent {
 
     return (
       <article
-        onMouseEnter={onFilmCardMouseEnter}
+        onMouseEnter={() => {
+          onFilmCardMouseEnter(title, poster);
+        }
+        }
         onMouseLeave={onFilmCardMouseLeave}
         className="small-movie-card catalog__movies-card">
         <div

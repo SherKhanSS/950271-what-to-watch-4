@@ -53,6 +53,8 @@ it(`Render MoviesList`, () => {
       films={films}
       currentGenre={currentGenre}
       onFilmTitleClick={() => {}}
+      onFilmCardMouseEnter={() => {}}
+      onFilmCardMouseLeave={() => {}}
     />, {
       createNodeMock: () => {
         return {};

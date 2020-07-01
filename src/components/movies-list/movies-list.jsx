@@ -1,74 +1,46 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card.jsx";
 
-class MovieList extends PureComponent {
-  constructor(props) {
-    super(props);
+const MoviesList = (props) => {
 
-    this.state = {
-      title: null,
-      poster: null,
-      timerId: null,
-    };
-  }
+  const {films, currentGenre, onFilmTitleClick, title, onFilmCardMouseEnter, onFilmCardMouseLeave} = props;
 
-  render() {
-    const {films, currentGenre, onFilmTitleClick} = this.props;
-    const PLAY_DELAY = 1000;
+  const getFilmsByGenre = () => {
+    if (currentGenre === `All genres`) {
+      return films;
+    }
 
-    const getFilmsByGenre = () => {
-      if (currentGenre === `All genres`) {
-        return films;
-      }
+    return films.filter((film) => film.genre === currentGenre);
+  };
 
-      return films.filter((film) => film.genre === currentGenre);
-    };
-
-    return (
-      <div className="catalog__movies-list">
-        {getFilmsByGenre().map((film, index) => {
-          return (
-            <MovieCard
-              title={film.title}
-              poster={film.poster}
-              preview={film.preview}
-              isPlaying={this.state.title === film.title}
-              onFilmTitleClick={onFilmTitleClick}
-              onFilmCardMouseEnter={() => {
-                const timer = setTimeout(() => {
-                  this.setState({
-                    title: film.title,
-                    poster: film.poster,
-                  });
-                }, PLAY_DELAY);
-                this.setState({
-                  timerId: timer,
-                });
-              }}
-              onFilmCardMouseLeave={() => {
-                this.setState({
-                  title: null,
-                  poster: null,
-                  timerId: null,
-                });
-                const {timerId} = this.state;
-                clearTimeout(timerId);
-              }}
-              key={film.title + index}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-}
-
-MovieList.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  currentGenre: PropTypes.string.isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
+  return (
+    <div className="catalog__movies-list">
+      {getFilmsByGenre().map((film, index) => {
+        return (
+          <MovieCard
+            title={film.title}
+            poster={film.poster}
+            preview={film.preview}
+            isPlaying={title === film.title}
+            onFilmTitleClick={onFilmTitleClick}
+            onFilmCardMouseEnter={onFilmCardMouseEnter}
+            onFilmCardMouseLeave={onFilmCardMouseLeave}
+            key={film.title + index}
+          />
+        );
+      })}
+    </div>
+  );
 };
 
-export default MovieList;
+MoviesList.propTypes = {
+  films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentGenre: PropTypes.string.isRequired,
+  title: PropTypes.any,
+  onFilmTitleClick: PropTypes.func.isRequired,
+  onFilmCardMouseEnter: PropTypes.func.isRequired,
+  onFilmCardMouseLeave: PropTypes.func.isRequired,
+};
 
+export default MoviesList;
