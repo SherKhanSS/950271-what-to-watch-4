@@ -1,28 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Tabs from "../tabs/tabs.jsx";
+import withTabs from "../../hocs/with-tabs/with-tabs.js";
+import MoviesList from "../movies-list/movies-list.jsx";
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 
-const getRatingLevel = (rating) => {
-  if (rating >= 0 && rating < 3) {
-    return `Bad`;
-  }
-  if (rating < 5) {
-    return `Normal`;
-  }
-  if (rating < 8) {
-    return `Good`;
-  }
-  if (rating < 10) {
-    return `Very good`;
-  }
-  if (rating === 10) {
-    return `Awesome`;
-  }
-  return null;
-};
+const TabsWrapped = withTabs(Tabs);
+const MoviesListWrapped = withMoviesList(MoviesList);
+
+const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
 
-  const {title, genre, year, poster, cover, ratingScore, ratingCount, textPartOne, textPartTwo, director, starring} = props.film;
+  const {films, currentGenre, onFilmTitleClick} = props;
+  const {title, genre, year, poster, cover} = props.film;
 
   return (
     <>
@@ -98,55 +89,10 @@ const MoviePage = (props) => {
                 width="218" height="327" />
             </div>
 
-            <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
+            <TabsWrapped
+              {...props}
+            />
 
-              <div className="movie-rating">
-                <div
-                  className="movie-rating__score">
-                  {ratingScore}
-                </div>
-                <p className="movie-rating__meta">
-                  <span
-                    className="movie-rating__level">
-                    {getRatingLevel(ratingScore)}
-                  </span>
-                  <span
-                    className="movie-rating__count">
-                    {ratingCount} ratings
-                  </span>
-                </p>
-              </div>
-
-              <div className="movie-card__text">
-                <p>{textPartOne}</p>
-
-                <p>{textPartTwo}</p>
-
-                <p className="movie-card__director">
-                  <strong>
-                    Director: {director}
-                  </strong></p>
-
-                <p className="movie-card__starring">
-                  <strong>
-                    Starring: {starring}
-                  </strong>
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -155,43 +101,12 @@ const MoviePage = (props) => {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__movies-list">
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
+          <MoviesListWrapped
+            films={films.filter((movie) => movie.genre === genre).slice(0, MAX_FILMS_LENGHT)}
+            currentGenre={currentGenre}
+            onFilmTitleClick={onFilmTitleClick}
+          />
 
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Aviator</a>
-              </h3>
-            </article>
-          </div>
         </section>
 
         <footer className="page-footer">
@@ -226,6 +141,9 @@ MoviePage.propTypes = {
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
   }),
+  films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentGenre: PropTypes.string,
+  onFilmTitleClick: PropTypes.func.isRequired,
 };
 
 export default MoviePage;
