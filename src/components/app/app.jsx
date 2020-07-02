@@ -7,19 +7,31 @@ import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 
 class App extends PureComponent {
+  _getFilmsByGenre() {
+    const {films, currentGenre} = this.props;
+
+    if (currentGenre === `All genres`) {
+      return films;
+    }
+
+    return films.filter((film) => film.genre === currentGenre);
+  }
+
   _renderApp() {
-    const {films, genres, currentGenre, activeFilm, onGenresItemClick, onFilmTitleClick} = this.props;
+    const {films, genres, currentGenre, activeFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick} = this.props;
     const film = films[0];
 
     if (activeFilm === null) {
       return (
         <Main
           film={film}
-          films={films.slice(0, 8)}
+          films={this._getFilmsByGenre()}
           genres={genres}
           currentGenre={currentGenre}
+          filmsLength={filmsLength}
           onGenresItemClick={onGenresItemClick}
           onFilmTitleClick={onFilmTitleClick}
+          onShowMoreClick={onShowMoreClick}
         />
       );
     }
@@ -29,7 +41,6 @@ class App extends PureComponent {
         <MoviePage
           film={films.find((movie) => movie.title === activeFilm)}
           films={films}
-          currentGenre={currentGenre}
           onFilmTitleClick={onFilmTitleClick}
         />
       );
@@ -40,13 +51,12 @@ class App extends PureComponent {
 
   _renderMoviePage() {
     const film = this.props.films[0];
-    const {films, currentGenre, onFilmTitleClick} = this.props;
+    const {films, onFilmTitleClick} = this.props;
 
     return (
       <MoviePage
         film={film}
         films={films}
-        currentGenre={currentGenre}
         onFilmTitleClick={onFilmTitleClick}
       />
     );
@@ -74,8 +84,10 @@ App.propTypes = {
   genres: PropTypes.array.isRequired,
   currentGenre: PropTypes.string,
   activeFilm: PropTypes.any,
+  filmsLength: PropTypes.number.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -83,16 +95,22 @@ const mapStateToProps = (state) => ({
   films: state.films,
   activeFilm: state.activeFilm,
   genres: state.genres,
+  filmsLength: state.filmsLength,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGenresItemClick(genre) {
     dispatch(ActionCreator.changeCurrentGenre(genre));
+    dispatch(ActionCreator.dropFilmsLength());
   },
 
   onFilmTitleClick(filmTitle) {
     dispatch(ActionCreator.changeActiveFilm(filmTitle));
   },
+
+  onShowMoreClick() {
+    dispatch(ActionCreator.changeFilmsLength());
+  }
 });
 
 export {App};

@@ -12,7 +12,7 @@ const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
 
-  const {films, currentGenre, onFilmTitleClick} = props;
+  const {films, onFilmTitleClick} = props;
   const {title, genre, year, poster, cover} = props.film;
 
   return (
@@ -103,7 +103,6 @@ const MoviePage = (props) => {
 
           <MoviesListWrapped
             films={films.filter((movie) => movie.genre === genre).slice(0, MAX_FILMS_LENGHT)}
-            currentGenre={currentGenre}
             onFilmTitleClick={onFilmTitleClick}
           />
 
@@ -142,7 +141,6 @@ MoviePage.propTypes = {
     starring: PropTypes.string.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  currentGenre: PropTypes.string,
   onFilmTitleClick: PropTypes.func.isRequired,
 };
 

@@ -197,14 +197,12 @@ export const films = [
 ];
 
 const film = films[0];
-const currentGenre = `Drama`;
 
 it(`Render MoviePage`, () => {
   const tree = renderer
     .create(<MoviePage
       film={film}
       films={films}
-      currentGenre={currentGenre}
       onFilmTitleClick={() => {}}
     />)
     .toJSON();

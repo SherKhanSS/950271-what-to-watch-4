@@ -4,19 +4,11 @@ import MovieCard from "../movie-card/movie-card.jsx";
 
 const MoviesList = (props) => {
 
-  const {films, currentGenre, onFilmTitleClick, title, onFilmCardMouseEnter, onFilmCardMouseLeave} = props;
-
-  const getFilmsByGenre = () => {
-    if (currentGenre === `All genres`) {
-      return films;
-    }
-
-    return films.filter((film) => film.genre === currentGenre);
-  };
+  const {films, onFilmTitleClick, title, onFilmCardMouseEnter, onFilmCardMouseLeave} = props;
 
   return (
     <div className="catalog__movies-list">
-      {getFilmsByGenre().map((film, index) => {
+      {films.map((film, index) => {
         return (
           <MovieCard
             title={film.title}
@@ -36,7 +28,6 @@ const MoviesList = (props) => {
 
 MoviesList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  currentGenre: PropTypes.string.isRequired,
   title: PropTypes.any,
   onFilmTitleClick: PropTypes.func.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,

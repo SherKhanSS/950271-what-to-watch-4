@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import GenresList from "../genres-list/genres-list.jsx";
 import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import ShowMore from "../show-more/show-more.jsx";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
 
   const {title, genre, year} = props.film;
-  const {films, genres, currentGenre, onFilmTitleClick, onGenresItemClick} = props;
+  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick} = props;
 
   return (
     <>
@@ -79,14 +80,16 @@ const Main = (props) => {
           />
 
           <MoviesListWrapped
-            films={films}
-            currentGenre={currentGenre}
+            films={films.slice(0, filmsLength)}
             onFilmTitleClick={onFilmTitleClick}
           />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filmsLength < films.length
+            ? <ShowMore
+              onShowMoreClick={onShowMoreClick}
+            />
+            : null}
+
         </section>
 
         <footer className="page-footer">
@@ -116,8 +119,10 @@ Main.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   genres: PropTypes.array.isRequired,
   currentGenre: PropTypes.string.isRequired,
+  filmsLength: PropTypes.number.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired,
 };
 
 export default Main;
