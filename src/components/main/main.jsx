@@ -81,7 +81,6 @@ const Main = (props) => {
 
           <MoviesListWrapped
             films={films.slice(0, filmsLength)}
-            currentGenre={currentGenre}
             onFilmTitleClick={onFilmTitleClick}
           />
 

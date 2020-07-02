@@ -7,6 +7,16 @@ import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 
 class App extends PureComponent {
+  _getFilmsByGenre() {
+    const {films, currentGenre} = this.props;
+
+    if (currentGenre === `All genres`) {
+      return films;
+    }
+
+    return films.filter((film) => film.genre === currentGenre);
+  }
+
   _renderApp() {
     const {films, genres, currentGenre, activeFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick} = this.props;
     const film = films[0];
@@ -15,7 +25,7 @@ class App extends PureComponent {
       return (
         <Main
           film={film}
-          films={films}
+          films={this._getFilmsByGenre()}
           genres={genres}
           currentGenre={currentGenre}
           filmsLength={filmsLength}
@@ -31,7 +41,6 @@ class App extends PureComponent {
         <MoviePage
           film={films.find((movie) => movie.title === activeFilm)}
           films={films}
-          currentGenre={currentGenre}
           onFilmTitleClick={onFilmTitleClick}
         />
       );
@@ -42,13 +51,12 @@ class App extends PureComponent {
 
   _renderMoviePage() {
     const film = this.props.films[0];
-    const {films, currentGenre, onFilmTitleClick} = this.props;
+    const {films, onFilmTitleClick} = this.props;
 
     return (
       <MoviePage
         film={film}
         films={films}
-        currentGenre={currentGenre}
         onFilmTitleClick={onFilmTitleClick}
       />
     );
@@ -93,6 +101,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGenresItemClick(genre) {
     dispatch(ActionCreator.changeCurrentGenre(genre));
+    dispatch(ActionCreator.dropFilmsLength());
   },
 
   onFilmTitleClick(filmTitle) {

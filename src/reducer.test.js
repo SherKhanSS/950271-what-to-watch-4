@@ -266,3 +266,22 @@ it(`Reducer should change the length of the movie list to a given value`, () => 
     genres,
   });
 });
+
+it(`Reducer should change the length of the movie list to a initial value`, () => {
+  expect(reducer({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: 16,
+    films,
+    genres,
+  }, {
+    type: ActionType.DROP_FILMS_LENGTH,
+    payload: FILMS_LENGTH,
+  })).toEqual({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: 8,
+    films,
+    genres,
+  });
+});
