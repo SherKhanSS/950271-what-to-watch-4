@@ -160,11 +160,14 @@ const films = [
 
 const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
 const curretGenre = `All genres`;
+const FILMS_LENGTH = 8;
+const filmsLength = FILMS_LENGTH;
 
 it(`Render App`, () => {
   const store = mockStore({
     curretGenre,
     activeFilm: null,
+    filmsLength: FILMS_LENGTH,
     films,
     genres,
   });
@@ -176,9 +179,11 @@ it(`Render App`, () => {
             film={film}
             films={films}
             genres={genres}
+            filmsLength={filmsLength}
             curretGenre={curretGenre}
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
+            onShowMoreClick={() => {}}
           />
         </Provider>, {
           createNodeMock: () => {

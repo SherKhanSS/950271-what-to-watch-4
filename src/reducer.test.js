@@ -197,12 +197,14 @@ export const films = [
 
 const genres = [`All genres`, `Drama`, `Sci-Fi`, `Comedies`, `Crime`, `Documentary`, `Horror`, `Thrillers`, `Kids & Family`, `Romance`];
 const GENRE_DEFAULT = `All genres`;
+const FILMS_LENGTH = 8;
 
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
+    filmsLength: FILMS_LENGTH,
     films,
     genres,
   });
@@ -212,6 +214,7 @@ it(`Reducer should change the genre to a given value`, () => {
   expect(reducer({
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
+    filmsLength: FILMS_LENGTH,
     films,
     genres,
   }, {
@@ -220,6 +223,7 @@ it(`Reducer should change the genre to a given value`, () => {
   })).toEqual({
     currentGenre: `Drama`,
     activeFilm: null,
+    filmsLength: FILMS_LENGTH,
     films,
     genres,
   });
@@ -229,6 +233,7 @@ it(`Reducer should change the movie to a given value`, () => {
   expect(reducer({
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
+    filmsLength: FILMS_LENGTH,
     films,
     genres,
   }, {
@@ -237,6 +242,26 @@ it(`Reducer should change the movie to a given value`, () => {
   })).toEqual({
     currentGenre: GENRE_DEFAULT,
     activeFilm: `The Grand Budapest Hotel`,
+    filmsLength: FILMS_LENGTH,
+    films,
+    genres,
+  });
+});
+
+it(`Reducer should change the length of the movie list to a given value`, () => {
+  expect(reducer({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    films,
+    genres,
+  }, {
+    type: ActionType.SET_FILMS_LENGTH,
+    payload: FILMS_LENGTH,
+  })).toEqual({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: 16,
     films,
     genres,
   });

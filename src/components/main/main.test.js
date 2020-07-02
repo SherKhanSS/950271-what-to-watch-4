@@ -53,6 +53,7 @@ const films = [
 
 const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
 const currentGenre = `All genres`;
+const filmsLength = 8;
 
 it(`Render Main`, () => {
   const tree = renderer
@@ -61,8 +62,10 @@ it(`Render Main`, () => {
       films={films}
       genres={genres}
       currentGenre={currentGenre}
+      filmsLength={filmsLength}
       onGenresItemClick={() => {}}
       onFilmTitleClick={() => {}}
+      onShowMoreClick={() => {}}
     />, {
       createNodeMock: () => {
         return {};
