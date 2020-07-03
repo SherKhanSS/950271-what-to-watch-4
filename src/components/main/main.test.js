@@ -66,6 +66,7 @@ it(`Render Main`, () => {
       onGenresItemClick={() => {}}
       onFilmTitleClick={() => {}}
       onShowMoreClick={() => {}}
+      onPlayButtonClick={() => {}}
     />, {
       createNodeMock: () => {
         return {};

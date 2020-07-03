@@ -205,6 +205,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   });
@@ -215,6 +216,7 @@ it(`Reducer should change the genre to a given value`, () => {
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   }, {
@@ -224,6 +226,7 @@ it(`Reducer should change the genre to a given value`, () => {
     currentGenre: `Drama`,
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   });
@@ -234,6 +237,7 @@ it(`Reducer should change the movie to a given value`, () => {
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   }, {
@@ -243,6 +247,7 @@ it(`Reducer should change the movie to a given value`, () => {
     currentGenre: GENRE_DEFAULT,
     activeFilm: `The Grand Budapest Hotel`,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   });
@@ -253,6 +258,7 @@ it(`Reducer should change the length of the movie list to a given value`, () => 
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
     films,
     genres,
   }, {
@@ -262,6 +268,7 @@ it(`Reducer should change the length of the movie list to a given value`, () => 
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: 16,
+    isPlayingFilm: false,
     films,
     genres,
   });
@@ -272,6 +279,7 @@ it(`Reducer should change the length of the movie list to a initial value`, () =
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: 16,
+    isPlayingFilm: false,
     films,
     genres,
   }, {
@@ -281,7 +289,51 @@ it(`Reducer should change the length of the movie list to a initial value`, () =
     currentGenre: GENRE_DEFAULT,
     activeFilm: null,
     filmsLength: 8,
+    isPlayingFilm: false,
     films,
     genres,
   });
 });
+
+it(`Reducer should change  the playback to a false`, () => {
+  expect(reducer({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: true,
+    films,
+    genres,
+  }, {
+    type: ActionType.DROP_IS_PLAYING_FILM,
+    payload: false,
+  })).toEqual({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
+    films,
+    genres,
+  });
+});
+
+it(`Reducer should change  the playback to a true`, () => {
+  expect(reducer({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
+    films,
+    genres,
+  }, {
+    type: ActionType.ACTIVATE_PLAYING_FILM,
+    payload: true,
+  })).toEqual({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: true,
+    films,
+    genres,
+  });
+});
+

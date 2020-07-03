@@ -204,6 +204,7 @@ it(`Render MoviePage`, () => {
       film={film}
       films={films}
       onFilmTitleClick={() => {}}
+      onPlayButtonClick={() => {}}
     />)
     .toJSON();
 

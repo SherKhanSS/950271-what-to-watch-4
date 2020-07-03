@@ -184,6 +184,8 @@ it(`Render App`, () => {
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
             onShowMoreClick={() => {}}
+            onPlayButtonClick={() => {}}
+            onPlayerExitClick={() => {}}
           />
         </Provider>, {
           createNodeMock: () => {

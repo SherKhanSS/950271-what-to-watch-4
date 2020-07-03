@@ -10,7 +10,7 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 const Main = (props) => {
 
   const {title, genre, year} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick} = props;
+  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick} = props;
 
   return (
     <>
@@ -51,7 +51,12 @@ const Main = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  onClick={() => {
+                    onPlayButtonClick();
+                  }}
+                  className="btn btn--play movie-card__button"
+                  type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -123,6 +128,7 @@ Main.propTypes = {
   onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
+  onPlayButtonClick: PropTypes.func.isRequired,
 };
 
 export default Main;
