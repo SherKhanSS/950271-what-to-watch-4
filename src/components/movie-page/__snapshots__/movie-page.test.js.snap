@@ -226,9 +226,6 @@ Array [
             <p>
               In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.
             </p>
-            <p>
-              Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
-            </p>
             <p
               className="movie-card__director"
             >
@@ -242,7 +239,14 @@ Array [
             >
               <strong>
                 Starring: 
-                Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other
+                Bill Murray
+                , 
+                Edward Norton
+                , 
+                Jude Law
+                , 
+                Willem Dafoe
+                , 
               </strong>
             </p>
           </div>
@@ -276,7 +280,7 @@ Array [
             <img
               alt="The Grand Budapest Hotel"
               height="175"
-              src="img/the-grand-budapest-hotel-poster.jpg"
+              src="img/bohemian-rhapsody.jpg"
               width="280"
             />
           </div>

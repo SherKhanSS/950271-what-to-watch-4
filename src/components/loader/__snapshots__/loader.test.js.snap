@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Loader 1`] = `
+<svg
+  height="64px"
+  style={
+    Object {
+      "left": "calc(50% - 32px)",
+      "position": "fixed",
+      "top": "calc(50% - 32px)",
+    }
+  }
+  version="1.0"
+  viewBox="0 0 128 128"
+  width="64px"
+  xmlSpace="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g>
+    <linearGradient
+      id="linear-gradient"
+    >
+      <stop
+        offset="0%"
+        stopColor="#fff"
+      />
+      <stop
+        offset="100%"
+        stopColor="#000"
+      />
+    </linearGradient>
+    <path
+      d="M63.85 0A63.85 63.85 0 1 1 0 63.85 63.85 63.85 0 0 1 63.85 0zm.65 19.5a44 44 0 1 1-44 44 44 44 0 0 1 44-44z"
+      fill="url(#linear-gradient)"
+      fillRule="evenodd"
+    />
+    <animateTransform
+      attributeName="transform"
+      dur="1080ms"
+      from="0 64 64"
+      repeatCount="indefinite"
+      to="360 64 64"
+      type="rotate"
+    />
+  </g>
+</svg>
+`;
