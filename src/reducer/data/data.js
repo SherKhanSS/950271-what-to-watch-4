@@ -1,13 +1,19 @@
 import {extend} from "../../utils.js";
+import {getAdaptedFilm} from "../../adapter/adapter.js";
+
+const GENRE_DEFAULT = `All genres`;
+const MAX_GENRES_LENGTH = 9;
 
 const initialState = {
   films: null,
   promoFilm: null,
+  genres: null,
 };
 
 const ActionType = {
   LOAD_FILMS: `LOAD_FILMS`,
   LOAD_PROMO_FILM: `LOAD_PROMO_FILM`,
+  LOAD_GENRES: `LOAD_GENRES`,
 };
 
 const ActionCreator = {
@@ -24,20 +30,37 @@ const ActionCreator = {
       payload: movie,
     };
   },
+
+  loadGenres: (genres) => {
+    return {
+      type: ActionType.LOAD_GENRES,
+      payload: genres,
+    };
+  },
 };
 
 const Operation = {
   loadFilms: () => (dispatch, getState, api) => {
     return api.get(`/films`)
       .then((response) => {
-        dispatch(ActionCreator.loadFilms(response.data));
+        return response.data.map((film) => getAdaptedFilm(film));
+      })
+      .then((films) => {
+        dispatch(ActionCreator.loadFilms(films));
+        dispatch(ActionCreator.loadGenres(
+            [GENRE_DEFAULT, ...new Set(films.map((movie) => movie.genre)
+              .slice(0, MAX_GENRES_LENGTH))])
+        );
       });
   },
 
   loadPromoFilm: () => (dispatch, getState, api) => {
     return api.get(`/films/promo`)
       .then((response) => {
-        dispatch(ActionCreator.loadPromoFilm(response.data));
+        return getAdaptedFilm(response.data);
+      })
+      .then((film) => {
+        dispatch(ActionCreator.loadPromoFilm(film));
       });
   },
 };
@@ -53,6 +76,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_PROMO_FILM:
       return extend(state, {
         promoFilm: action.payload,
+      });
+
+    case ActionType.LOAD_GENRES:
+      return extend(state, {
+        genres: action.payload,
       });
   }
 

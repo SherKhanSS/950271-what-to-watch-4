@@ -25,6 +25,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
     films: null,
     promoFilm: null,
+    genres: null,
   });
 });
 
@@ -47,6 +48,17 @@ it(`Reducer should update promoFilm by load promoFilm`, () => {
     payload: films[0],
   })).toEqual({
     promoFilm: films[0],
+  });
+});
+
+it(`Reducer should update promoFilm by load genres`, () => {
+  expect(reducer({
+    genres: null,
+  }, {
+    type: ActionType.LOAD_GENRES,
+    payload: [films[0].genre],
+  })).toEqual({
+    genres: [films[0].genre],
   });
 });
 

@@ -3,10 +3,11 @@ import renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {App} from "./app.jsx";
+import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
 
-const film = {
+const promoFilm = {
   id: 1,
   title: `The Grand Budapest Hotel`,
   genre: `Drama`,
@@ -72,28 +73,41 @@ const films = [
   },
 ];
 
-const curretGenre = `All genres`;
+const genres = [`All genres`];
+const currentGenre = `All genres`;
 const FILMS_LENGTH = 8;
-const filmsLength = FILMS_LENGTH;
+
+// по идее это рендер Main, но не пойму, из-за чего ошибка деструктуризации
 
 it(`Render App`, () => {
   const store = mockStore({
-    films: null,
-    promoFilm: null,
-    curretGenre,
-    activeFilm: null,
-    filmsLength: FILMS_LENGTH,
-    authorizationStatus: `NO_AUTH`,
+    [NameSpace.DATA]: {
+      films,
+      promoFilm,
+      genres,
+    },
+    [NameSpace.APP_STATE]: {
+      currentGenre,
+      activeFilm: null,
+      filmsLength: FILMS_LENGTH,
+      isPlayingFilm: false,
+    },
+    [NameSpace.USER]: {
+      authorizationStatus: `NO_AUTH`,
+    }
   });
 
   const tree = renderer
     .create(
         <Provider store={store}>
           <App
-            film={film}
+            film={promoFilm}
             films={films}
-            filmsLength={filmsLength}
-            curretGenre={curretGenre}
+            genres={genres}
+            activeFilm={null}
+            filmsLength={FILMS_LENGTH}
+            currentGenre={currentGenre}
+            isPlayingFilm={false}
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
             onShowMoreClick={() => {}}

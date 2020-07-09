@@ -7,45 +7,29 @@ import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player.jsx";
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
-import {getAdaptedFilm} from "../../adapter/adapter.js";
-import {getFilms, getPromoFilm} from "../../reducer/data/selectors.js";
+import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
 import {getCurrentGenre, getActiveFilm, getIsPlayingFilm, getFilmsLength} from "../../reducer/app-state/selectors.js";
 import Loader from "../loader/loader.jsx";
 
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
 class App extends PureComponent {
-  _getFilmsByGenre(films, currentGenre) {
-
-    if (currentGenre === `All genres`) {
-      return films;
-    }
-
-    return films.filter((film) => film.genre === currentGenre);
-  }
 
   _renderApp() {
-    const {films, promoFilm, currentGenre, activeFilm, isPlayingFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick, onPlayButtonClick, onPlayerExitClick} = this.props;
+    const {films, promoFilm, genres, currentGenre, activeFilm, isPlayingFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick, onPlayButtonClick, onPlayerExitClick} = this.props;
 
-    const GENRE_DEFAULT = `All genres`;
-    const MAX_GENRES_LENGTH = 9;
-
-    if (films === null || promoFilm === null) {
+    if (films === null || promoFilm === null || genres === null) {
       return (
         <Loader />
       );
     }
 
-    let adaptedFilms = films.map((film) => getAdaptedFilm(film));
-    let adaptedPromoFilm = getAdaptedFilm(promoFilm);
-
     if (activeFilm === null && !isPlayingFilm) {
       return (
         <Main
-          film={adaptedPromoFilm}
-          films={this._getFilmsByGenre(adaptedFilms, currentGenre)
-          }
-          genres={[GENRE_DEFAULT, ...new Set(adaptedFilms.map((movie) => movie.genre).slice(0, MAX_GENRES_LENGTH))]}
+          film={promoFilm}
+          films={films}
+          genres={genres}
           currentGenre={currentGenre}
           filmsLength={filmsLength}
           onGenresItemClick={onGenresItemClick}
@@ -59,8 +43,8 @@ class App extends PureComponent {
     if (activeFilm && !isPlayingFilm) {
       return (
         <MoviePage
-          film={adaptedFilms.find((movie) => movie.title === activeFilm)}
-          films={adaptedFilms}
+          film={films.find((movie) => movie.title === activeFilm)}
+          films={films}
           onFilmTitleClick={onFilmTitleClick}
           onPlayButtonClick={onPlayButtonClick}
         />
@@ -69,7 +53,7 @@ class App extends PureComponent {
 
     if (isPlayingFilm) {
       let currentFilm = activeFilm === null
-        ? adaptedPromoFilm : adaptedFilms.find((movie) => movie.title === activeFilm);
+        ? promoFilm : films.find((movie) => movie.title === activeFilm);
 
       return (
         <FullScreenVideoPlayerWrapped
@@ -84,21 +68,18 @@ class App extends PureComponent {
   }
 
   _renderMoviePage() {
-    const {films, onFilmTitleClick, onPlayButtonClick} = this.props;
+    const {films, genres, promoFilm, onFilmTitleClick, onPlayButtonClick} = this.props;
 
-    if (films === null) {
+    if (films === null || promoFilm === null || genres === null) {
       return (
         <Loader />
       );
     }
 
-    let adaptedFilms = films.map((film) => getAdaptedFilm(film));
-    let film = adaptedFilms[0];
-
     return (
       <MoviePage
-        film={film}
-        films={adaptedFilms}
+        film={promoFilm}
+        films={films}
         onFilmTitleClick={onFilmTitleClick}
         onPlayButtonClick={onPlayButtonClick}
       />
@@ -106,18 +87,15 @@ class App extends PureComponent {
   }
 
   render() {
-    const {onPlayerExitClick, films} = this.props;
+    const {onPlayerExitClick, films, promoFilm, genres} = this.props;
 
-    if (films === null) {
+    if (films === null || promoFilm === null || genres === null) {
       return (
         <Loader />
       );
     }
 
-    let adaptedFilms = films.map((film) => getAdaptedFilm(film));
-    let film = adaptedFilms[0];
-
-    const {poster, videoLink} = film;
+    const {poster, videoLink} = films[0];
 
     return (
       <BrowserRouter>
@@ -142,6 +120,7 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
+  genres: PropTypes.any,
   films: PropTypes.any,
   promoFilm: PropTypes.any,
   currentGenre: PropTypes.string,
@@ -156,7 +135,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: getFilms(state),
+  genres: getGenres(state),
+  films: getFilmsByGenre(state),
   promoFilm: getPromoFilm(state),
   currentGenre: getCurrentGenre(state),
   activeFilm: getActiveFilm(state),
