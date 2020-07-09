@@ -43,12 +43,9 @@ const Operation = {
   loadFilms: () => (dispatch, getState, api) => {
     return api.get(`/films`)
       .then((response) => {
-        return response.data.map((film) => getAdaptedFilm(film));
-      })
-      .then((films) => {
-        dispatch(ActionCreator.loadFilms(films));
+        dispatch(ActionCreator.loadFilms(response.data.map((film) => getAdaptedFilm(film))));
         dispatch(ActionCreator.loadGenres(
-            [GENRE_DEFAULT, ...new Set(films.map((movie) => movie.genre)
+            [GENRE_DEFAULT, ...new Set(response.data.map((film) => getAdaptedFilm(film)).map((movie) => movie.genre)
               .slice(0, MAX_GENRES_LENGTH))])
         );
       });
@@ -57,10 +54,7 @@ const Operation = {
   loadPromoFilm: () => (dispatch, getState, api) => {
     return api.get(`/films/promo`)
       .then((response) => {
-        return getAdaptedFilm(response.data);
-      })
-      .then((film) => {
-        dispatch(ActionCreator.loadPromoFilm(film));
+        dispatch(ActionCreator.loadPromoFilm(getAdaptedFilm(response.data)));
       });
   },
 };

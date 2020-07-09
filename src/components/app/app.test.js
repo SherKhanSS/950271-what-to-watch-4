@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
-import {App} from "./app.jsx";
+import App from "./app.jsx";
 import NameSpace from "../../reducer/name-space.js";
 
 const mockStore = configureStore([]);
@@ -76,8 +76,6 @@ const films = [
 const genres = [`All genres`];
 const currentGenre = `All genres`;
 const FILMS_LENGTH = 8;
-
-// по идее это рендер Main, но не пойму, из-за чего ошибка деструктуризации
 
 it(`Render App`, () => {
   const store = mockStore({

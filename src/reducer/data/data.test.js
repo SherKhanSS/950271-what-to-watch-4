@@ -1,23 +1,52 @@
 import MockAdapter from "axios-mock-adapter";
 import {createAPI} from "../../api.js";
 import {reducer, ActionType, Operation} from "./data.js";
+import {getAdaptedFilm} from "../../adapter/adapter.js";
 
 const api = createAPI(() => {});
 
+// этот фильм был для теста загрузки, но не прошел еслинт, может придется использовать
+// const films = [
+//   {
+//     name: `Beach`,
+//     poster_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/beach.jpg`,
+//     preview_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/beach.jpg`,
+//     background_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/beach.jpg`,
+//     background_color: `#EBC996`,
+//     description: `Vicenarian Richard travels to Thailand and finds himself in possession of a strange map. Rumours state that it leads to a solitary beach paradise, a tropical bliss. Excited and intrigued, he sets out to find it.`,
+//     rating: 3.3,
+//     scores_count: 207824,
+//     director: `Danny Boyle`,
+//     starring: [`Leonardo DiCaprio`, `Daniel York`, `Patcharawan Patarakijjanon`],
+//     run_time: 119,
+//     genre: `Adventure`,
+//     released: 2000,
+//     id: 1,
+//     is_favorite: false,
+//     video_link: `http://media.xiph.org/mango/tears_of_steel_1080p.webm`,
+//     preview_video_link: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+//   }
+// ];
+
 const films = [
   {
-    title: `The Grand Budapest Hotel`,
-    genre: `Drama`,
-    year: 2014,
-    runTime: `1h 39m`,
-    poster: `img/the-grand-budapest-hotel-poster.jpg`,
-    cover: `img/bg-the-grand-budapest-hotel.jpg`,
-    ratingScore: 8.9,
-    ratingCount: 240,
-    description: `In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.`,
-    director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other`,
+    backgroundColor: `#BDAD8F`,
+    cover: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/No_Country_for_Old_Men.jpg`,
+    description: `Violence and mayhem ensue after a hunter stumbles upon a drug deal gone wrong and more than two million dollars in cash near the Rio Grande.`,
+    director: `Ethan Coen`,
+    genre: `Crime`,
+    id: 1,
+    isFavorite: false,
+    poster: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/No_Country_for_Old_Men.jpg`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    previewImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/no-country-for-old-men.jpg`,
+    ratingCount: 764976,
+    ratingScore: 4.1,
+    runTime: 122,
+    starring: [`Tommy Lee Jones`, `Javier Bardem`, `Josh Brolin`],
+    title: `No Country for Old Men`,
+    videoLink: `http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`,
+    year: 2007,
   },
 ];
 
@@ -70,14 +99,18 @@ describe(`Operation work correctly`, () => {
 
     apiMock
       .onGet(`/films`)
-      .reply(200, [{fake: true}]);
+      .reply(200, films);
 
     return filmsLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_FILMS,
-          payload: [{fake: true}],
+          payload: [getAdaptedFilm(films[0])],
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: ActionType.LOAD_GENRES,
+          payload: [`All genres`, `Crime`],
         });
       });
   });
@@ -89,14 +122,14 @@ describe(`Operation work correctly`, () => {
 
     apiMock
       .onGet(`/films/promo`)
-      .reply(200, [{fake: true}]);
+      .reply(200, films[0]);
 
     return promoFilmLoader(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_PROMO_FILM,
-          payload: [{fake: true}],
+          payload: getAdaptedFilm(films[0]),
         });
       });
   });

@@ -51,7 +51,7 @@ class MovieCard extends PureComponent {
 
 MovieCard.propTypes = {
   title: PropTypes.string.isRequired,
-  poster: PropTypes.string.isRequired,
+  poster: PropTypes.string,
   preview: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
