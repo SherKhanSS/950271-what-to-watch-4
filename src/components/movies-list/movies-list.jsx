@@ -12,7 +12,7 @@ const MoviesList = (props) => {
         return (
           <MovieCard
             title={film.title}
-            poster={film.poster}
+            poster={film.previewImage}
             preview={film.preview}
             isPlaying={title === film.title}
             onFilmTitleClick={onFilmTitleClick}

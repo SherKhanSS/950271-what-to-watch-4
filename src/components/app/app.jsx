@@ -2,33 +2,33 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/app-state/app-state.js";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player.jsx";
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
+import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
+import {getCurrentGenre, getActiveFilm, getIsPlayingFilm, getFilmsLength} from "../../reducer/app-state/selectors.js";
+import Loader from "../loader/loader.jsx";
+
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
 class App extends PureComponent {
-  _getFilmsByGenre() {
-    const {films, currentGenre} = this.props;
-
-    if (currentGenre === `All genres`) {
-      return films;
-    }
-
-    return films.filter((film) => film.genre === currentGenre);
-  }
 
   _renderApp() {
-    const {films, genres, currentGenre, activeFilm, isPlayingFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick, onPlayButtonClick, onPlayerExitClick} = this.props;
-    const film = films[0];
+    const {films, promoFilm, genres, currentGenre, activeFilm, isPlayingFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick, onPlayButtonClick, onPlayerExitClick} = this.props;
+
+    if (films === null || promoFilm === null || genres === null) {
+      return (
+        <Loader />
+      );
+    }
 
     if (activeFilm === null && !isPlayingFilm) {
       return (
         <Main
-          film={film}
-          films={this._getFilmsByGenre()}
+          film={promoFilm}
+          films={films}
           genres={genres}
           currentGenre={currentGenre}
           filmsLength={filmsLength}
@@ -53,12 +53,12 @@ class App extends PureComponent {
 
     if (isPlayingFilm) {
       let currentFilm = activeFilm === null
-        ? film : films.find((movie) => movie.title === activeFilm);
+        ? promoFilm : films.find((movie) => movie.title === activeFilm);
 
       return (
         <FullScreenVideoPlayerWrapped
           poster={currentFilm.poster}
-          preview={currentFilm.preview}
+          videoLink={currentFilm.videoLink}
           onPlayerExitClick={onPlayerExitClick}
         />
       );
@@ -68,12 +68,17 @@ class App extends PureComponent {
   }
 
   _renderMoviePage() {
-    const film = this.props.films[0];
-    const {films, onFilmTitleClick, onPlayButtonClick} = this.props;
+    const {films, genres, promoFilm, onFilmTitleClick, onPlayButtonClick} = this.props;
+
+    if (films === null || promoFilm === null || genres === null) {
+      return (
+        <Loader />
+      );
+    }
 
     return (
       <MoviePage
-        film={film}
+        film={promoFilm}
         films={films}
         onFilmTitleClick={onFilmTitleClick}
         onPlayButtonClick={onPlayButtonClick}
@@ -82,8 +87,15 @@ class App extends PureComponent {
   }
 
   render() {
-    const {onPlayerExitClick} = this.props;
-    const {poster, preview} = this.props.films[1];
+    const {onPlayerExitClick, films, promoFilm, genres} = this.props;
+
+    if (films === null || promoFilm === null || genres === null) {
+      return (
+        <Loader />
+      );
+    }
+
+    const {poster, videoLink} = films[0];
 
     return (
       <BrowserRouter>
@@ -97,7 +109,7 @@ class App extends PureComponent {
           <Route exact path="/dev-player">
             <FullScreenVideoPlayerWrapped
               poster={poster}
-              preview={preview}
+              videoLink={videoLink}
               onPlayerExitClick={onPlayerExitClick}
             />
           </Route>
@@ -108,8 +120,9 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  films: PropTypes.array.isRequired,
-  genres: PropTypes.array.isRequired,
+  genres: PropTypes.any,
+  films: PropTypes.any,
+  promoFilm: PropTypes.any,
   currentGenre: PropTypes.string,
   activeFilm: PropTypes.any,
   filmsLength: PropTypes.number.isRequired,
@@ -122,12 +135,13 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  currentGenre: state.currentGenre,
-  films: state.films,
-  activeFilm: state.activeFilm,
-  isPlayingFilm: state.isPlayingFilm,
-  genres: state.genres,
-  filmsLength: state.filmsLength,
+  genres: getGenres(state),
+  films: getFilmsByGenre(state),
+  promoFilm: getPromoFilm(state),
+  currentGenre: getCurrentGenre(state),
+  activeFilm: getActiveFilm(state),
+  isPlayingFilm: getIsPlayingFilm(state),
+  filmsLength: getFilmsLength(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

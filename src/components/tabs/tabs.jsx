@@ -2,6 +2,9 @@ import React, {PureComponent, Fragment} from "react";
 import PropTypes from "prop-types";
 import Comments from "../comments/comments.jsx";
 
+// временно моки
+import {comments} from "../../adapter/adapter.js";
+
 class Tabs extends PureComponent {
   constructor(props) {
     super(props);
@@ -29,9 +32,15 @@ class Tabs extends PureComponent {
     return null;
   }
 
+  formatTime(time) {
+    let hours = Math.floor(time / 60);
+    let minutes = time % 60;
+    return `${hours}h ${minutes}m`;
+  }
+
   getComponentByTab(tab) {
 
-    const {genre, year, runTime, ratingScore, ratingCount, textPartOne, textPartTwo, director, starring, comments} = this.props.film;
+    const {genre, year, runTime, ratingScore, ratingCount, description, director, starring} = this.props.film;
 
     switch (tab) {
 
@@ -56,15 +65,20 @@ class Tabs extends PureComponent {
         </div>
 
         <div className="movie-card__text">
-          <p>{textPartOne}</p>
-          <p>{textPartTwo}</p>
+          <p>{description}</p>
           <p className="movie-card__director">
             <strong>
             Director: {director}
             </strong></p>
           <p className="movie-card__starring">
             <strong>
-            Starring: {starring}
+            Starring: {starring.map((actor) => {
+                return (
+                  <Fragment key={actor}>
+                    {actor}{`, `}
+                  </Fragment>
+                );
+              })}
             </strong>
           </p>
         </div>
@@ -83,7 +97,7 @@ class Tabs extends PureComponent {
               <p className="movie-card__details-item">
                 <strong className="movie-card__details-name">Starring</strong>
                 <span className="movie-card__details-value">
-                  {starring.split(`,`).map((actor) => {
+                  {starring.map((actor) => {
                     return (
                       <Fragment key={actor}>
                         {actor} <br/>
@@ -97,7 +111,9 @@ class Tabs extends PureComponent {
             <div className="movie-card__text-col">
               <p className="movie-card__details-item">
                 <strong className="movie-card__details-name">Run Time</strong>
-                <span className="movie-card__details-value">{runTime}</span>
+                <span className="movie-card__details-value">
+                  {this.formatTime(runTime)}
+                </span>
               </p>
               <p className="movie-card__details-item">
                 <strong className="movie-card__details-name">Genre</strong>
@@ -167,14 +183,13 @@ Tabs.propTypes = {
   film: PropTypes.shape({
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    runTime: PropTypes.string.isRequired,
+    runTime: PropTypes.number.isRequired,
     ratingScore: PropTypes.number.isRequired,
     ratingCount: PropTypes.number.isRequired,
-    textPartOne: PropTypes.string.isRequired,
-    textPartTwo: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     director: PropTypes.string.isRequired,
-    starring: PropTypes.string.isRequired,
-    comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+    starring: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   }),
   tabCurrent: PropTypes.any,
   onTabClick: PropTypes.any,

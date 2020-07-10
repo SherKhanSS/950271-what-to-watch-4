@@ -1,22 +1,13 @@
-import {films} from "./mocks/films.js";
+import {extend} from "../../utils.js";
 
-const MAX_GENRES_LENGTH = 9;
-const GENRE_DEFAULT = `All genres`;
 const FILMS_LENGTH = 8;
-
-const extend = (a, b) => {
-  return Object.assign({}, a, b);
-};
-
-const genres = [GENRE_DEFAULT, ...new Set(films.map((film) => film.genre).slice(0, MAX_GENRES_LENGTH))];
+const GENRE_DEFAULT = `All genres`;
 
 const initialState = {
   currentGenre: GENRE_DEFAULT,
   activeFilm: null,
   filmsLength: FILMS_LENGTH,
   isPlayingFilm: false,
-  films,
-  genres,
 };
 
 const ActionType = {
@@ -60,9 +51,9 @@ const ActionCreator = {
   }),
 };
 
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+
     case ActionType.CHANGE_FILTER_BY_GENRE:
       return extend(state, {
         currentGenre: action.payload,

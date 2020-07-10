@@ -9,14 +9,17 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
 
-  const {title, genre, year} = props.film;
+  const {title, genre, year, cover, poster} = props.film;
   const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick} = props;
 
   return (
     <>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img
+            src={cover}
+            alt={title}
+          />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -40,7 +43,11 @@ const Main = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img
+                src={poster}
+                alt={title + ` poster`}
+                width="218" height="327"
+              />
             </div>
 
             <div className="movie-card__desc">
@@ -120,6 +127,8 @@ Main.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
+    cover: PropTypes.string.isRequired,
+    poster: PropTypes.string.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   genres: PropTypes.array.isRequired,

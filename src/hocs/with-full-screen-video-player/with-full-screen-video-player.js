@@ -21,11 +21,11 @@ const withFullScreenVideoPlayer = (Component) => {
     }
 
     componentDidMount() {
-      const {poster, preview} = this.props;
+      const {poster, videoLink} = this.props;
       const video = this._videoRef.current;
 
       video.poster = poster;
-      video.src = preview;
+      video.src = videoLink;
 
       video.ontimeupdate = () => this.setState({
         timeElapsed: Math.floor(video.duration - video.currentTime),
@@ -103,7 +103,7 @@ const withFullScreenVideoPlayer = (Component) => {
 
   WithFullScreenVideoPlayer.propTypes = {
     poster: PropTypes.any,
-    preview: PropTypes.any,
+    videoLink: PropTypes.any,
     onPlayerExitClick: PropTypes.any,
   };
 
