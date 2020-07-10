@@ -43,9 +43,10 @@ const Operation = {
   loadFilms: () => (dispatch, getState, api) => {
     return api.get(`/films`)
       .then((response) => {
-        dispatch(ActionCreator.loadFilms(response.data.map((film) => getAdaptedFilm(film))));
+        const adaptedFilm = response.data.map((film) => getAdaptedFilm(film));
+        dispatch(ActionCreator.loadFilms(adaptedFilm));
         dispatch(ActionCreator.loadGenres(
-            [GENRE_DEFAULT, ...new Set(response.data.map((film) => getAdaptedFilm(film)).map((movie) => movie.genre)
+            [GENRE_DEFAULT, ...new Set(adaptedFilm.map((movie) => movie.genre)
               .slice(0, MAX_GENRES_LENGTH))])
         );
       });

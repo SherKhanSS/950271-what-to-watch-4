@@ -5,28 +5,29 @@ import {getAdaptedFilm} from "../../adapter/adapter.js";
 
 const api = createAPI(() => {});
 
-// этот фильм был для теста загрузки, но не прошел еслинт, может придется использовать
-// const films = [
-//   {
-//     name: `Beach`,
-//     poster_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/beach.jpg`,
-//     preview_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/beach.jpg`,
-//     background_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/beach.jpg`,
-//     background_color: `#EBC996`,
-//     description: `Vicenarian Richard travels to Thailand and finds himself in possession of a strange map. Rumours state that it leads to a solitary beach paradise, a tropical bliss. Excited and intrigued, he sets out to find it.`,
-//     rating: 3.3,
-//     scores_count: 207824,
-//     director: `Danny Boyle`,
-//     starring: [`Leonardo DiCaprio`, `Daniel York`, `Patcharawan Patarakijjanon`],
-//     run_time: 119,
-//     genre: `Adventure`,
-//     released: 2000,
-//     id: 1,
-//     is_favorite: false,
-//     video_link: `http://media.xiph.org/mango/tears_of_steel_1080p.webm`,
-//     preview_video_link: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
-//   }
-// ];
+/* eslint-disable camelcase */
+const notAdaptedFilms = [
+  {
+    name: `Beach`,
+    poster_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/beach.jpg`,
+    preview_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/beach.jpg`,
+    background_image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/beach.jpg`,
+    background_color: `#EBC996`,
+    description: `Vicenarian Richard travels to Thailand and finds himself in possession of a strange map. Rumours state that it leads to a solitary beach paradise, a tropical bliss. Excited and intrigued, he sets out to find it.`,
+    rating: 3.3,
+    scores_count: 207824,
+    director: `Danny Boyle`,
+    starring: [`Leonardo DiCaprio`, `Daniel York`, `Patcharawan Patarakijjanon`],
+    run_time: 119,
+    genre: `Adventure`,
+    released: 2000,
+    id: 1,
+    is_favorite: false,
+    video_link: `http://media.xiph.org/mango/tears_of_steel_1080p.webm`,
+    preview_video_link: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+  }
+];
+/* eslint-enable camelcase */
 
 const films = [
   {
@@ -99,18 +100,18 @@ describe(`Operation work correctly`, () => {
 
     apiMock
       .onGet(`/films`)
-      .reply(200, films);
+      .reply(200, notAdaptedFilms);
 
     return filmsLoader(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_FILMS,
-          payload: [getAdaptedFilm(films[0])],
+          payload: [getAdaptedFilm(notAdaptedFilms[0])],
         });
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.LOAD_GENRES,
-          payload: [`All genres`, `Crime`],
+          payload: [`All genres`, `Adventure`],
         });
       });
   });
@@ -122,14 +123,14 @@ describe(`Operation work correctly`, () => {
 
     apiMock
       .onGet(`/films/promo`)
-      .reply(200, films[0]);
+      .reply(200, notAdaptedFilms[0]);
 
     return promoFilmLoader(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_PROMO_FILM,
-          payload: getAdaptedFilm(films[0]),
+          payload: getAdaptedFilm(notAdaptedFilms[0]),
         });
       });
   });
