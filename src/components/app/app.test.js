@@ -106,11 +106,13 @@ it(`Render App`, () => {
             filmsLength={FILMS_LENGTH}
             currentGenre={currentGenre}
             isPlayingFilm={false}
+            authorizationStatus={`NO_AUTH`}
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
             onShowMoreClick={() => {}}
             onPlayButtonClick={() => {}}
             onPlayerExitClick={() => {}}
+            login={() => {}}
           />
         </Provider>, {
           createNodeMock: () => {
