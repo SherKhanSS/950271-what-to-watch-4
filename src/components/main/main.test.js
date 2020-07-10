@@ -46,6 +46,7 @@ it(`Render Main`, () => {
       genres={genres}
       currentGenre={currentGenre}
       filmsLength={filmsLength}
+      isAuthorized={false}
       onGenresItemClick={() => {}}
       onFilmTitleClick={() => {}}
       onShowMoreClick={() => {}}

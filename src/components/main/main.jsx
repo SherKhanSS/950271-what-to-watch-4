@@ -10,7 +10,7 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 const Main = (props) => {
 
   const {title, genre, year, cover, poster} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick} = props;
+  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick, isAuthorized} = props;
 
   return (
     <>
@@ -34,9 +34,16 @@ const Main = (props) => {
           </div>
 
           <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
+            {isAuthorized
+              ? (
+                <div className="user-block__avatar">
+                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                </div>
+              )
+              : (
+                <a href="sign-in.html" className="user-block__link">Sign in</a>
+              )
+            }
           </div>
         </header>
 
@@ -138,6 +145,7 @@ Main.propTypes = {
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
 };
 
 export default Main;

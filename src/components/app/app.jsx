@@ -9,18 +9,44 @@ import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
 import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
 import {getCurrentGenre, getActiveFilm, getIsPlayingFilm, getFilmsLength} from "../../reducer/app-state/selectors.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import Loader from "../loader/loader.jsx";
+import SignIn from "../sign-in/sign-in.jsx";
 
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
 class App extends PureComponent {
 
   _renderApp() {
-    const {films, promoFilm, genres, currentGenre, activeFilm, isPlayingFilm, filmsLength, onGenresItemClick, onFilmTitleClick, onShowMoreClick, onPlayButtonClick, onPlayerExitClick} = this.props;
+    const {
+      films,
+      promoFilm,
+      genres,
+      currentGenre,
+      activeFilm,
+      isPlayingFilm,
+      filmsLength,
+      authorizationStatus,
+      onGenresItemClick,
+      onFilmTitleClick,
+      onShowMoreClick,
+      onPlayButtonClick,
+      onPlayerExitClick,
+      login
+    } = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
       return (
         <Loader />
+      );
+    }
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      return (
+        <SignIn
+          onSubmit={login}
+        />
       );
     }
 
@@ -32,6 +58,7 @@ class App extends PureComponent {
           genres={genres}
           currentGenre={currentGenre}
           filmsLength={filmsLength}
+          isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
           onGenresItemClick={onGenresItemClick}
           onFilmTitleClick={onFilmTitleClick}
           onShowMoreClick={onShowMoreClick}
@@ -127,11 +154,13 @@ App.propTypes = {
   activeFilm: PropTypes.any,
   filmsLength: PropTypes.number.isRequired,
   isPlayingFilm: PropTypes.bool,
+  authorizationStatus: PropTypes.string.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
   onPlayerExitClick: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,6 +171,7 @@ const mapStateToProps = (state) => ({
   activeFilm: getActiveFilm(state),
   isPlayingFilm: getIsPlayingFilm(state),
   filmsLength: getFilmsLength(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -164,6 +194,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onPlayButtonClick() {
     dispatch(ActionCreator.activatePlayingFilm());
+  },
+
+  login(authData) {
+    dispatch(UserOperation.login(authData));
   },
 });
 
