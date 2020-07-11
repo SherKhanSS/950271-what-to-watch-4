@@ -12,7 +12,7 @@ const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
 
-  const {films, onFilmTitleClick, onPlayButtonClick} = props;
+  const {films, isAuthorized, onFilmTitleClick, onPlayButtonClick} = props;
   const {title, genre, year, poster, cover} = props.film;
 
   return (
@@ -79,7 +79,10 @@ const MoviePage = (props) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn movie-card__button">Add review</a>
+                {isAuthorized
+                  ? (<a href="add-review.html" className="btn movie-card__button">Add review</a>)
+                  : null
+                }
               </div>
             </div>
           </div>
@@ -147,6 +150,7 @@ MoviePage.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
 };
 
 export default MoviePage;

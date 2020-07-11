@@ -14,6 +14,8 @@ import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/use
 import Loader from "../loader/loader.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
 
+import AddReview from "../add-review/add-review.jsx";
+
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
 class App extends PureComponent {
@@ -72,6 +74,7 @@ class App extends PureComponent {
         <MoviePage
           film={films.find((movie) => movie.title === activeFilm)}
           films={films}
+          isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
           onFilmTitleClick={onFilmTitleClick}
           onPlayButtonClick={onPlayButtonClick}
         />
@@ -95,7 +98,7 @@ class App extends PureComponent {
   }
 
   _renderMoviePage() {
-    const {films, genres, promoFilm, onFilmTitleClick, onPlayButtonClick} = this.props;
+    const {films, genres, promoFilm, authorizationStatus, onFilmTitleClick, onPlayButtonClick} = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
       return (
@@ -107,6 +110,7 @@ class App extends PureComponent {
       <MoviePage
         film={promoFilm}
         films={films}
+        isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
         onFilmTitleClick={onFilmTitleClick}
         onPlayButtonClick={onPlayButtonClick}
       />
@@ -114,7 +118,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {onPlayerExitClick, films, promoFilm, genres} = this.props;
+    const {onPlayerExitClick, films, promoFilm, genres, sendReview} = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
       return (
@@ -140,6 +144,12 @@ class App extends PureComponent {
               onPlayerExitClick={onPlayerExitClick}
             />
           </Route>
+          <Route exact path="/dev-form">
+            <AddReview
+              film={promoFilm}
+              onSubmitReview={sendReview}
+            />
+          </Route>
         </Switch>
       </BrowserRouter>
     );
@@ -161,6 +171,7 @@ App.propTypes = {
   onPlayButtonClick: PropTypes.func.isRequired,
   onPlayerExitClick: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  sendReview: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -198,6 +209,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   login(authData) {
     dispatch(UserOperation.login(authData));
+  },
+
+  sendReview(reviewData) {
+    dispatch(UserOperation.sendReview(reviewData));
   },
 });
 
