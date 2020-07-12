@@ -22,6 +22,7 @@ it(`Render AddReview`, () => {
   const tree = renderer
     .create(<AddReview
       film={promoFilm}
+      showSendError={false}
       onSubmitReview={() => {}}
     />, {
       createNodeMock: () => {

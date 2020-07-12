@@ -24,6 +24,7 @@ class AddReview extends PureComponent {
 
   render() {
     const {title, poster, cover} = this.props.film;
+    const {showSendError} = this.props;
 
     return (
       <section className="movie-card movie-card--full">
@@ -97,6 +98,15 @@ class AddReview extends PureComponent {
                 <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
                 <label className="rating__label" htmlFor="star-5">Rating 5</label>
               </div>
+              {showSendError
+                ? (<div
+                  style={{
+                    color: `red`,
+                  }}
+                  className="rating__stars">
+                    You have broken the most reliable application in the world! They are coming for you!
+                </div>)
+                : null}
             </div>
 
             <div className="add-review__text">
@@ -129,6 +139,7 @@ AddReview.propTypes = {
     cover: PropTypes.string,
   }),
   onSubmitReview: PropTypes.func.isRequired,
+  showSendError: PropTypes.bool.isRequired,
 };
 
 export default AddReview;

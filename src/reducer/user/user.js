@@ -8,11 +8,13 @@ const AuthorizationStatus = {
 const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   onReviewSuccess: false,
+  showSendError: false,
 };
 
 const ActionType = {
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   SEND_REVIEW: `SEND_REVIEW`,
+  SET_SHOW_SEND_ERROR: `SET_SHOW_SEND_ERROR`,
 };
 
 const ActionCreator = {
@@ -29,6 +31,13 @@ const ActionCreator = {
       payload: status,
     };
   },
+
+  setShowSendError: (status) => {
+    return {
+      type: ActionType.SET_SHOW_SEND_ERROR,
+      payload: status,
+    };
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -42,6 +51,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SEND_REVIEW:
       return extend(state, {
         onReviewSuccess: action.payload,
+      });
+
+    case ActionType.SET_SHOW_SEND_ERROR:
+      return extend(state, {
+        showSendError: action.payload,
       });
   }
 
@@ -76,6 +90,10 @@ const Operation = {
     })
       .then(() => {
         dispatch(ActionCreator.sendReview(true));
+      })
+      .catch((err) => {
+        dispatch(ActionCreator.setShowSendError(true));
+        throw err;
       });
   },
 };
