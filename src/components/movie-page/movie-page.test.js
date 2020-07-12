@@ -86,6 +86,7 @@ it(`Render MoviePage`, () => {
     .create(<MoviePage
       film={film}
       films={films}
+      isAuthorized={true}
       onFilmTitleClick={() => {}}
       onPlayButtonClick={() => {}}
     />)

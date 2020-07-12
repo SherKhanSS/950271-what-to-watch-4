@@ -3,6 +3,8 @@ import {reducer, ActionType, ActionCreator, AuthorizationStatus} from "./user.js
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
     authorizationStatus: AuthorizationStatus.NO_AUTH,
+    onReviewSuccess: false,
+    showSendError: false,
   });
 });
 
@@ -41,6 +43,28 @@ it(`Reducer should change authorizationStatus by a given value`, () => {
     payload: AuthorizationStatus.NO_AUTH,
   })).toEqual({
     authorizationStatus: AuthorizationStatus.NO_AUTH,
+  });
+});
+
+it(`Reducer should change onReviewSuccess by a given value`, () => {
+  expect(reducer({
+    onReviewSuccess: false,
+  }, {
+    type: ActionType.SEND_REVIEW,
+    payload: true,
+  })).toEqual({
+    onReviewSuccess: true,
+  });
+});
+
+it(`Reducer should change showSendError by a given value`, () => {
+  expect(reducer({
+    showSendError: false,
+  }, {
+    type: ActionType.SET_SHOW_SEND_ERROR,
+    payload: true,
+  })).toEqual({
+    showSendError: true,
   });
 });
 

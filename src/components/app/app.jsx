@@ -9,10 +9,12 @@ import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
 import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
 import {getCurrentGenre, getActiveFilm, getIsPlayingFilm, getFilmsLength} from "../../reducer/app-state/selectors.js";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+import {getAuthorizationStatus, getShowSendError} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import Loader from "../loader/loader.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
+
+import AddReview from "../add-review/add-review.jsx";
 
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
@@ -72,6 +74,7 @@ class App extends PureComponent {
         <MoviePage
           film={films.find((movie) => movie.title === activeFilm)}
           films={films}
+          isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
           onFilmTitleClick={onFilmTitleClick}
           onPlayButtonClick={onPlayButtonClick}
         />
@@ -95,7 +98,7 @@ class App extends PureComponent {
   }
 
   _renderMoviePage() {
-    const {films, genres, promoFilm, onFilmTitleClick, onPlayButtonClick} = this.props;
+    const {films, genres, promoFilm, authorizationStatus, onFilmTitleClick, onPlayButtonClick} = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
       return (
@@ -107,6 +110,7 @@ class App extends PureComponent {
       <MoviePage
         film={promoFilm}
         films={films}
+        isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
         onFilmTitleClick={onFilmTitleClick}
         onPlayButtonClick={onPlayButtonClick}
       />
@@ -114,7 +118,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {onPlayerExitClick, films, promoFilm, genres} = this.props;
+    const {onPlayerExitClick, films, promoFilm, genres, sendReview} = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
       return (
@@ -123,6 +127,7 @@ class App extends PureComponent {
     }
 
     const {poster, videoLink} = films[0];
+    const {showSendError} = this.props;
 
     return (
       <BrowserRouter>
@@ -138,6 +143,13 @@ class App extends PureComponent {
               poster={poster}
               videoLink={videoLink}
               onPlayerExitClick={onPlayerExitClick}
+            />
+          </Route>
+          <Route exact path="/dev-form">
+            <AddReview
+              film={promoFilm}
+              onSubmitReview={sendReview}
+              showSendError={showSendError}
             />
           </Route>
         </Switch>
@@ -161,6 +173,8 @@ App.propTypes = {
   onPlayButtonClick: PropTypes.func.isRequired,
   onPlayerExitClick: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  sendReview: PropTypes.func.isRequired,
+  showSendError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -172,6 +186,7 @@ const mapStateToProps = (state) => ({
   isPlayingFilm: getIsPlayingFilm(state),
   filmsLength: getFilmsLength(state),
   authorizationStatus: getAuthorizationStatus(state),
+  showSendError: getShowSendError(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -198,6 +213,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   login(authData) {
     dispatch(UserOperation.login(authData));
+  },
+
+  sendReview(reviewData) {
+    dispatch(UserOperation.sendReview(reviewData));
   },
 });
 

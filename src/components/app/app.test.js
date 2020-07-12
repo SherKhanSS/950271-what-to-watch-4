@@ -92,6 +92,8 @@ it(`Render App`, () => {
     },
     [NameSpace.USER]: {
       authorizationStatus: `NO_AUTH`,
+      onReviewSuccess: false,
+      showSendError: false,
     }
   });
 
@@ -106,6 +108,7 @@ it(`Render App`, () => {
             filmsLength={FILMS_LENGTH}
             currentGenre={currentGenre}
             isPlayingFilm={false}
+            showSendError={false}
             authorizationStatus={`NO_AUTH`}
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
