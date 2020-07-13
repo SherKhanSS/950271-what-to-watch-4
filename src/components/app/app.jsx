@@ -46,6 +46,11 @@ class App extends PureComponent {
       );
     }
 
+    // временно, в рамках текущего задания для работы двух экранов, главной страницы и авторизации
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      history.push(`/`);
+    }
+
     if (activeFilm === null && !isPlayingFilm) {
       return (
         <Main
