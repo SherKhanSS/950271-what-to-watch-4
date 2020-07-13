@@ -1,5 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import {Router} from "react-router-dom";
+import history from "../../history.js";
 import MoviePage from "./movie-page.jsx";
 
 const comments = [
@@ -83,13 +85,19 @@ const film = films[0];
 
 it(`Render MoviePage`, () => {
   const tree = renderer
-    .create(<MoviePage
-      film={film}
-      films={films}
-      isAuthorized={true}
-      onFilmTitleClick={() => {}}
-      onPlayButtonClick={() => {}}
-    />)
+    .create(
+        <Router
+          history={history}
+        >
+          <MoviePage
+            film={film}
+            films={films}
+            isAuthorized={true}
+            onFilmTitleClick={() => {}}
+            onPlayButtonClick={() => {}}
+          />
+        </Router>
+    )
     .toJSON();
 
   expect(tree).toMatchSnapshot();

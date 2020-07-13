@@ -1,16 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 import GenresList from "../genres-list/genres-list.jsx";
 import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import ShowMore from "../show-more/show-more.jsx";
+import history from "../../history.js";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
 
   const {title, genre, year, cover, poster} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick, isAuthorized} = props;
+  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick, isAuthorized, filmsAddedToWatch, onAddButtonClick} = props;
 
   return (
     <>
@@ -26,23 +28,29 @@ const Main = (props) => {
 
         <header className="page-header movie-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <Link to={`/`} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="user-block">
             {isAuthorized
-              ? (
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              )
-              : (
-                <a href="sign-in.html" className="user-block__link">Sign in</a>
-              )
+              ? <Link
+                to={`/mylist`}
+                className="user-block__avatar"
+                style={{
+                  display: `block`,
+                }}>
+                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+              </Link>
+              : <Link
+                to={`/login`}
+                className="user-block__link"
+              >
+                  Sign in
+              </Link>
             }
           </div>
         </header>
@@ -76,10 +84,31 @@ const Main = (props) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                <button
+                  onClick={() => {
+                    if (!isAuthorized) {
+                      history.push(`/login`);
+                    }
+
+                    let newFilmsAddedToWatch = new Set([...filmsAddedToWatch]);
+                    if (filmsAddedToWatch.has(title)) {
+                      newFilmsAddedToWatch.delete(title);
+                    } else {
+                      newFilmsAddedToWatch.add(title);
+                    }
+                    onAddButtonClick(newFilmsAddedToWatch);
+                  }}
+                  className="btn btn--list movie-card__button" type="button">
+                  {filmsAddedToWatch.has(title)
+                    ? (
+                      <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg>
+                    )
+                    : (<svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>)
+                  }
                   <span>My list</span>
                 </button>
               </div>
@@ -113,11 +142,11 @@ const Main = (props) => {
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light">
+            <Link to={`/`} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">
@@ -145,7 +174,9 @@ Main.propTypes = {
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
+  onAddButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
+  filmsAddedToWatch: PropTypes.object,
 };
 
 export default Main;

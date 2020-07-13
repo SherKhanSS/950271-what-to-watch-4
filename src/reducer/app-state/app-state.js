@@ -8,6 +8,7 @@ const initialState = {
   activeFilm: null,
   filmsLength: FILMS_LENGTH,
   isPlayingFilm: false,
+  filmsAddedToWatch: new Set(),
 };
 
 const ActionType = {
@@ -17,6 +18,7 @@ const ActionType = {
   DROP_FILMS_LENGTH: `DROP_FILMS_LENGTH`,
   DROP_IS_PLAYING_FILM: `DROP_IS_PLAYING_FILM`,
   ACTIVATE_PLAYING_FILM: `ACTIVATE_PLAYING_FILM`,
+  SET_FILMS_ADDED_TO_WATCH: `SET_FILMS_ADDED_TO_WATCH`,
 };
 
 const ActionCreator = {
@@ -48,6 +50,11 @@ const ActionCreator = {
   activatePlayingFilm: () => ({
     type: ActionType.ACTIVATE_PLAYING_FILM,
     payload: true,
+  }),
+
+  setFilmsAddedToWatch: (list) => ({
+    type: ActionType.SET_FILMS_ADDED_TO_WATCH,
+    payload: list,
   }),
 };
 
@@ -82,6 +89,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.ACTIVATE_PLAYING_FILM:
       return extend(state, {
         isPlayingFilm: action.payload,
+      });
+
+    case ActionType.SET_FILMS_ADDED_TO_WATCH:
+      return extend(state, {
+        filmsAddedToWatch: action.payload,
       });
   }
 

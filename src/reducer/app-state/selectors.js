@@ -15,3 +15,7 @@ export const getIsPlayingFilm = (state) => {
 export const getFilmsLength = (state) => {
   return state[NameSpace.APP_STATE].filmsLength;
 };
+
+export const getFilmsAddedToWatch = (state) => {
+  return state[NameSpace.APP_STATE].filmsAddedToWatch;
+};

@@ -76,6 +76,7 @@ const films = [
 const genres = [`All genres`];
 const currentGenre = `All genres`;
 const FILMS_LENGTH = 8;
+const filmsWatch = new Set([`Aviator, The Revenant`]);
 
 it(`Render App`, () => {
   const store = mockStore({
@@ -89,6 +90,7 @@ it(`Render App`, () => {
       activeFilm: null,
       filmsLength: FILMS_LENGTH,
       isPlayingFilm: false,
+      filmsAddedToWatch: filmsWatch,
     },
     [NameSpace.USER]: {
       authorizationStatus: `NO_AUTH`,
@@ -110,6 +112,8 @@ it(`Render App`, () => {
             isPlayingFilm={false}
             showSendError={false}
             authorizationStatus={`NO_AUTH`}
+            filmsAddedToWatch={filmsWatch}
+            onAddButtonClick={() => {}}
             onGenresItemClick={() => {}}
             onFilmTitleClick={() => {}}
             onShowMoreClick={() => {}}

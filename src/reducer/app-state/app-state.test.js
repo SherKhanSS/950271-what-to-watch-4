@@ -2,7 +2,7 @@ import {reducer, ActionType} from "./app-state.js";
 
 const GENRE_DEFAULT = `All genres`;
 const FILMS_LENGTH = 8;
-
+const filmsWatch = new Set([`Aviator, The Revenant`]);
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
@@ -10,6 +10,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     activeFilm: null,
     filmsLength: FILMS_LENGTH,
     isPlayingFilm: false,
+    filmsAddedToWatch: new Set(),
   });
 });
 
@@ -120,5 +121,24 @@ it(`Reducer should change  the playback to a true`, () => {
     filmsLength: FILMS_LENGTH,
     isPlayingFilm: true,
 
+  });
+});
+
+it(`Reducer should change the list of movies to be watched by a given value`, () => {
+  expect(reducer({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
+    filmsAddedToWatch: null,
+  }, {
+    type: ActionType.SET_FILMS_ADDED_TO_WATCH,
+    payload: filmsWatch,
+  })).toEqual({
+    currentGenre: GENRE_DEFAULT,
+    activeFilm: null,
+    filmsLength: FILMS_LENGTH,
+    isPlayingFilm: false,
+    filmsAddedToWatch: filmsWatch,
   });
 });

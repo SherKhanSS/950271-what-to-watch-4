@@ -1,6 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import {Router} from "react-router-dom";
 import Main from "./main.jsx";
+import history from "../../history.js";
 
 const film = {
   title: `The Grand Budapest Hotel`,
@@ -37,25 +39,34 @@ const films = [
 const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
 const currentGenre = `All genres`;
 const filmsLength = 8;
+const filmsWatch = new Set([`Aviator, The Revenant`]);
 
 it(`Render Main`, () => {
   const tree = renderer
-    .create(<Main
-      film={film}
-      films={films}
-      genres={genres}
-      currentGenre={currentGenre}
-      filmsLength={filmsLength}
-      isAuthorized={false}
-      onGenresItemClick={() => {}}
-      onFilmTitleClick={() => {}}
-      onShowMoreClick={() => {}}
-      onPlayButtonClick={() => {}}
-    />, {
-      createNodeMock: () => {
-        return {};
-      }
-    })
+    .create(
+        <Router
+          history={history}
+        >
+          <Main
+            film={film}
+            films={films}
+            genres={genres}
+            currentGenre={currentGenre}
+            filmsLength={filmsLength}
+            isAuthorized={false}
+            filmsAddedToWatch={filmsWatch}
+            onAddButtonClick={() => {}}
+            onGenresItemClick={() => {}}
+            onFilmTitleClick={() => {}}
+            onShowMoreClick={() => {}}
+            onPlayButtonClick={() => {}}
+          />
+        </Router>
+        , {
+          createNodeMock: () => {
+            return {};
+          }
+        })
     .toJSON();
 
   expect(tree).toMatchSnapshot();
