@@ -11,8 +11,8 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
 
-  const {title, genre, year, cover, poster} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick, isAuthorized, filmsAddedToWatch, onAddButtonClick} = props;
+  const {title, genre, year, cover, poster, id} = props.film;
+  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, isAuthorized, filmsAddedToWatch, onAddButtonClick} = props;
 
   return (
     <>
@@ -75,7 +75,7 @@ const Main = (props) => {
               <div className="movie-card__buttons">
                 <button
                   onClick={() => {
-                    onPlayButtonClick();
+                    history.push(`/films/${id}/player`);
                   }}
                   className="btn btn--play movie-card__button"
                   type="button">
@@ -165,6 +165,7 @@ Main.propTypes = {
     year: PropTypes.number.isRequired,
     cover: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   genres: PropTypes.array.isRequired,
@@ -173,7 +174,6 @@ Main.propTypes = {
   onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
   filmsAddedToWatch: PropTypes.object,

@@ -5,6 +5,8 @@ import Tabs from "../tabs/tabs.jsx";
 import withTabs from "../../hocs/with-tabs/with-tabs.js";
 import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import history from "../../history.js";
+import {getCurentFilm} from "../../utils.js";
 
 const TabsWrapped = withTabs(Tabs);
 const MoviesListWrapped = withMoviesList(MoviesList);
@@ -12,9 +14,9 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
-
-  const {films, isAuthorized, onFilmTitleClick, onPlayButtonClick} = props;
-  const {title, genre, year, poster, cover} = props.film;
+  const {films, isAuthorized, onFilmTitleClick} = props;
+  const film = getCurentFilm(films, props);
+  const {title, genre, year, poster, cover, id} = film;
 
   return (
     <>
@@ -39,9 +41,22 @@ const MoviePage = (props) => {
             </div>
 
             <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              {isAuthorized
+                ? <Link
+                  to={`/mylist`}
+                  className="user-block__avatar"
+                  style={{
+                    display: `block`,
+                  }}>
+                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                </Link>
+                : <Link
+                  to={`/login`}
+                  className="user-block__link"
+                >
+                  Sign in
+                </Link>
+              }
             </div>
           </header>
 
@@ -65,7 +80,7 @@ const MoviePage = (props) => {
               <div className="movie-card__buttons">
                 <button
                   onClick={() => {
-                    onPlayButtonClick();
+                    history.push(`/films/${id}/player`);
                   }}
                   className="btn btn--play movie-card__button"
                   type="button">
@@ -81,7 +96,14 @@ const MoviePage = (props) => {
                   <span>My list</span>
                 </button>
                 {isAuthorized
-                  ? (<a href="add-review.html" className="btn movie-card__button">Add review</a>)
+                  ? (
+                    <Link
+                      to={`/films/${id}/review`}
+                      className="btn movie-card__button"
+                    >
+                    Add review
+                    </Link>
+                  )
                   : null
                 }
               </div>
@@ -99,7 +121,7 @@ const MoviePage = (props) => {
             </div>
 
             <TabsWrapped
-              {...props}
+              film={film}
             />
 
           </div>
@@ -147,11 +169,14 @@ MoviePage.propTypes = {
     textPartOne: PropTypes.string,
     director: PropTypes.string.isRequired,
     starring: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
+  match: PropTypes.any,
+  params: PropTypes.any,
+  id: PropTypes.any,
 };
 
 export default MoviePage;

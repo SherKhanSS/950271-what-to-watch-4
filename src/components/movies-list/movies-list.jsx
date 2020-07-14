@@ -14,6 +14,7 @@ const MoviesList = (props) => {
             title={film.title}
             poster={film.previewImage}
             preview={film.preview}
+            id={film.id}
             isPlaying={title === film.title}
             onFilmTitleClick={onFilmTitleClick}
             onFilmCardMouseEnter={onFilmCardMouseEnter}

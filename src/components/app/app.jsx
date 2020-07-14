@@ -8,36 +8,35 @@ import MoviePage from "../movie-page/movie-page.jsx";
 import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player.jsx";
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
 import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
-import {getCurrentGenre, getActiveFilm, getIsPlayingFilm, getFilmsLength, getFilmsAddedToWatch} from "../../reducer/app-state/selectors.js";
+import {getCurrentGenre, getFilmsLength, getFilmsAddedToWatch} from "../../reducer/app-state/selectors.js";
 import {getAuthorizationStatus, getShowSendError} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import Loader from "../loader/loader.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
 import history from "../../history.js";
-
-// import AddReview from "../add-review/add-review.jsx";
+import AddReview from "../add-review/add-review.jsx";
+import MyList from "../my-list/my-list.jsx";
 
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
 class App extends PureComponent {
-
-  _renderApp() {
+  render() {
     const {
       films,
       promoFilm,
       genres,
       currentGenre,
-      activeFilm,
-      isPlayingFilm,
       filmsLength,
+      showSendError,
       authorizationStatus,
       filmsAddedToWatch,
       onGenresItemClick,
       onFilmTitleClick,
       onShowMoreClick,
-      onPlayButtonClick,
       onPlayerExitClick,
-      onAddButtonClick
+      onAddButtonClick,
+      login,
+      sendReview
     } = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
@@ -46,73 +45,67 @@ class App extends PureComponent {
       );
     }
 
-    // временно, в рамках текущего задания для работы двух экранов, главной страницы и авторизации
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
-      history.push(`/`);
-    }
-
-    if (activeFilm === null && !isPlayingFilm) {
-      return (
-        <Main
-          film={promoFilm}
-          films={films}
-          genres={genres}
-          currentGenre={currentGenre}
-          filmsLength={filmsLength}
-          isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
-          filmsAddedToWatch={filmsAddedToWatch}
-          onGenresItemClick={onGenresItemClick}
-          onFilmTitleClick={onFilmTitleClick}
-          onShowMoreClick={onShowMoreClick}
-          onPlayButtonClick={onPlayButtonClick}
-          onAddButtonClick={onAddButtonClick}
-        />
-      );
-    }
-
-    if (activeFilm && !isPlayingFilm) {
-      return (
-        <MoviePage
-          film={films.find((movie) => movie.title === activeFilm)}
-          films={films}
-          isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
-          onFilmTitleClick={onFilmTitleClick}
-          onPlayButtonClick={onPlayButtonClick}
-        />
-      );
-    }
-
-    if (isPlayingFilm) {
-      let currentFilm = activeFilm === null
-        ? promoFilm : films.find((movie) => movie.title === activeFilm);
-
-      return (
-        <FullScreenVideoPlayerWrapped
-          poster={currentFilm.poster}
-          videoLink={currentFilm.videoLink}
-          onPlayerExitClick={onPlayerExitClick}
-        />
-      );
-    }
-
-    return null;
-  }
-
-  render() {
-    const {login} = this.props;
-
     return (
       <Router
         history={history}
       >
         <Switch>
           <Route exact path="/">
-            {this._renderApp()}
-          </Route>
-          <Route exact path="/login">
-            <SignIn
-              onSubmit={login}
+            <Main
+              film={promoFilm}
+              films={films}
+              genres={genres}
+              currentGenre={currentGenre}
+              filmsLength={filmsLength}
+              isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
+              filmsAddedToWatch={filmsAddedToWatch}
+              onGenresItemClick={onGenresItemClick}
+              onFilmTitleClick={onFilmTitleClick}
+              onShowMoreClick={onShowMoreClick}
+              onAddButtonClick={onAddButtonClick}
             />
+          </Route>
+          <Route exact path="/login"
+            render = {() => authorizationStatus === AuthorizationStatus.NO_AUTH
+              ? <SignIn
+                onSubmit={login}
+              />
+              : history.goBack() }>
+          </Route>
+          <Route exact path="/mylist">
+            <MyList
+              films={films}
+              onFilmTitleClick={onFilmTitleClick}
+            />
+          </Route>
+          <Route exact path="/films/:id/review"
+            render = {(props) => (
+              <AddReview
+                {...props}
+                films={films}
+                showSendError={showSendError}
+                onSubmitReview={sendReview}
+              />
+            )}>
+          </Route>
+          <Route exact path="/films/:id/player"
+            render = {(props) => (
+              <FullScreenVideoPlayerWrapped
+                {...props}
+                films={films}
+                onPlayerExitClick={onPlayerExitClick}
+              />
+            )}>
+          </Route>
+          <Route exact path="/films/:id"
+            render = {(props) => (
+              <MoviePage
+                {...props}
+                films={films}
+                isAuthorized={authorizationStatus === AuthorizationStatus.AUTH}
+                onFilmTitleClick={onFilmTitleClick}
+              />
+            )}>
           </Route>
         </Switch>
       </Router>
@@ -125,14 +118,12 @@ App.propTypes = {
   films: PropTypes.any,
   promoFilm: PropTypes.any,
   currentGenre: PropTypes.string,
-  activeFilm: PropTypes.any,
   filmsLength: PropTypes.number.isRequired,
   isPlayingFilm: PropTypes.bool,
   authorizationStatus: PropTypes.string.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onFilmTitleClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
   onPlayerExitClick: PropTypes.func.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
@@ -146,8 +137,6 @@ const mapStateToProps = (state) => ({
   films: getFilmsByGenre(state),
   promoFilm: getPromoFilm(state),
   currentGenre: getCurrentGenre(state),
-  activeFilm: getActiveFilm(state),
-  isPlayingFilm: getIsPlayingFilm(state),
   filmsLength: getFilmsLength(state),
   authorizationStatus: getAuthorizationStatus(state),
   showSendError: getShowSendError(state),
@@ -170,10 +159,6 @@ const mapDispatchToProps = (dispatch) => ({
 
   onPlayerExitClick() {
     dispatch(ActionCreator.dropIsPlayingFilm());
-  },
-
-  onPlayButtonClick() {
-    dispatch(ActionCreator.activatePlayingFilm());
   },
 
   onAddButtonClick(list) {

@@ -1,5 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+import {getCurentFilm} from "../../utils.js";
 
 class AddReview extends PureComponent {
   constructor(props) {
@@ -23,8 +25,9 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {title, poster, cover} = this.props.film;
-    const {showSendError} = this.props;
+    const {films, showSendError} = this.props;
+    const film = getCurentFilm(films, this.props);
+    const {title, poster, cover} = film;
 
     return (
       <section className="movie-card movie-card--full">
@@ -40,11 +43,11 @@ class AddReview extends PureComponent {
 
           <header className="page-header">
             <div className="logo">
-              <a href="main.html" className="logo__link">
+              <Link to={`/`} className="logo__link">
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
-              </a>
+              </Link>
             </div>
 
             <nav className="breadcrumbs">
@@ -61,9 +64,14 @@ class AddReview extends PureComponent {
             </nav>
 
             <div className="user-block">
-              <div className="user-block__avatar">
+              <Link
+                to={`/mylist`}
+                className="user-block__avatar"
+                style={{
+                  display: `block`,
+                }}>
                 <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              </Link>
             </div>
           </header>
 
@@ -133,13 +141,12 @@ class AddReview extends PureComponent {
 }
 
 AddReview.propTypes = {
-  film: PropTypes.shape({
-    title: PropTypes.string,
-    poster: PropTypes.string,
-    cover: PropTypes.string,
-  }),
+  films: PropTypes.any,
   onSubmitReview: PropTypes.func.isRequired,
   showSendError: PropTypes.bool.isRequired,
+  match: PropTypes.any,
+  params: PropTypes.any,
+  id: PropTypes.any,
 };
 
 export default AddReview;

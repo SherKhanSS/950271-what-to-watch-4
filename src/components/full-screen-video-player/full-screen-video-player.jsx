@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import history from "../../history.js";
 
 const formatTime = (time) => {
   let hours = Math.floor(time / 60 / 60);
@@ -32,7 +33,7 @@ const FullScreenVideoPlayer = (props) => {
 
       <button
         onClick={() => {
-          onPlayerExitClick();
+          history.goBack();
         }} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
