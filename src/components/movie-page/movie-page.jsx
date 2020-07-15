@@ -7,6 +7,7 @@ import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import history from "../../history.js";
 import {getCurentFilm} from "../../utils.js";
+import {getNewFavoritesFilms} from "../../utils.js";
 
 const TabsWrapped = withTabs(Tabs);
 const MoviesListWrapped = withMoviesList(MoviesList);
@@ -14,7 +15,7 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
-  const {films, isAuthorized, onFilmTitleClick} = props;
+  const {films, favoritesFilms, isAuthorized, onAddButtonClick} = props;
   const film = getCurentFilm(films, props);
   const {title, genre, year, poster, cover, id} = film;
 
@@ -48,6 +49,7 @@ const MoviePage = (props) => {
                   style={{
                     display: `block`,
                   }}>
+                  {/* здесь проблема с загрузкой аватара, путь переопределяется что ли у img */}
                   <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
                 </Link>
                 : <Link
@@ -89,10 +91,24 @@ const MoviePage = (props) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                <button
+                  onClick={() => {
+                    if (!isAuthorized) {
+                      history.push(`/login`);
+                    }
+                    onAddButtonClick(getNewFavoritesFilms(favoritesFilms, film));
+                  }}
+                  className="btn btn--list movie-card__button" type="button">
+                  {favoritesFilms.includes(film)
+                    ? (
+                      <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg>
+                    )
+                    : (<svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>)
+                  }
                   <span>My list</span>
                 </button>
                 {isAuthorized
@@ -134,7 +150,6 @@ const MoviePage = (props) => {
 
           <MoviesListWrapped
             films={films.filter((movie) => movie.genre === genre).slice(0, MAX_FILMS_LENGHT)}
-            onFilmTitleClick={onFilmTitleClick}
           />
 
         </section>
@@ -172,11 +187,9 @@ MoviePage.propTypes = {
     id: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
+  favoritesFilms: PropTypes.array,
   isAuthorized: PropTypes.bool.isRequired,
-  match: PropTypes.any,
-  params: PropTypes.any,
-  id: PropTypes.any,
+  onAddButtonClick: PropTypes.func.isRequired,
 };
 
 export default MoviePage;

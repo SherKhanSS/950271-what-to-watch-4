@@ -8,7 +8,7 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 
 const MyList = (props) => {
 
-  const {films, onFilmTitleClick} = props;
+  const {films} = props;
 
   return (
     <div className="user-page">
@@ -35,7 +35,6 @@ const MyList = (props) => {
 
         <MoviesListWrapped
           films={films}
-          onFilmTitleClick={onFilmTitleClick}
         />
 
       </section>
@@ -58,7 +57,6 @@ const MyList = (props) => {
 
 MyList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
 };
 
 export default MyList;

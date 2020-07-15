@@ -9,7 +9,7 @@ class MovieCard extends PureComponent {
   }
 
   render() {
-    const {title, poster, preview, id, isPlaying, onFilmTitleClick, onFilmCardMouseEnter, onFilmCardMouseLeave} = this.props;
+    const {title, poster, preview, id, isPlaying, onFilmCardMouseEnter, onFilmCardMouseLeave} = this.props;
 
     return (
       <article
@@ -56,7 +56,6 @@ MovieCard.propTypes = {
   preview: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
   onFilmCardMouseLeave: PropTypes.func.isRequired,
 };

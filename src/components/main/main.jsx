@@ -6,13 +6,24 @@ import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import ShowMore from "../show-more/show-more.jsx";
 import history from "../../history.js";
+import {getNewFavoritesFilms} from "../../utils.js";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
-
-  const {title, genre, year, cover, poster, id} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, isAuthorized, filmsAddedToWatch, onAddButtonClick} = props;
+  const {
+    films,
+    film,
+    genres,
+    favoritesFilms,
+    currentGenre,
+    filmsLength,
+    onGenresItemClick,
+    onShowMoreClick,
+    isAuthorized,
+    onAddButtonClick
+  } = props;
+  const {title, genre, year, cover, poster, id} = film;
 
   return (
     <>
@@ -89,17 +100,10 @@ const Main = (props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-
-                    let newFilmsAddedToWatch = new Set([...filmsAddedToWatch]);
-                    if (filmsAddedToWatch.has(title)) {
-                      newFilmsAddedToWatch.delete(title);
-                    } else {
-                      newFilmsAddedToWatch.add(title);
-                    }
-                    onAddButtonClick(newFilmsAddedToWatch);
+                    onAddButtonClick(getNewFavoritesFilms(favoritesFilms, film));
                   }}
                   className="btn btn--list movie-card__button" type="button">
-                  {filmsAddedToWatch.has(title)
+                  {favoritesFilms.includes(film)
                     ? (
                       <svg viewBox="0 0 18 14" width="18" height="14">
                         <use xlinkHref="#in-list"></use>
@@ -129,7 +133,6 @@ const Main = (props) => {
 
           <MoviesListWrapped
             films={films.slice(0, filmsLength)}
-            onFilmTitleClick={onFilmTitleClick}
           />
 
           {filmsLength < films.length
@@ -168,15 +171,14 @@ Main.propTypes = {
     id: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesFilms: PropTypes.array,
   genres: PropTypes.array.isRequired,
   currentGenre: PropTypes.string.isRequired,
   filmsLength: PropTypes.number.isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
-  filmsAddedToWatch: PropTypes.object,
 };
 
 export default Main;
