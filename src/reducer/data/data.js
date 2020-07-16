@@ -8,15 +8,12 @@ const initialState = {
   films: null,
   promoFilm: null,
   genres: null,
-  favoritesFilms: [],
 };
 
 const ActionType = {
   LOAD_FILMS: `LOAD_FILMS`,
   LOAD_PROMO_FILM: `LOAD_PROMO_FILM`,
   LOAD_GENRES: `LOAD_GENRES`,
-  LOAD_FAVORITES_FILMS: `LOAD_FAVORITES_FILMS`,
-  SET_FAVORITES_FILMS: `SET_FAVORITES_FILMS`,
 };
 
 const ActionCreator = {
@@ -40,20 +37,6 @@ const ActionCreator = {
       payload: genres,
     };
   },
-
-  loadFavoritesFilms: (movies) => {
-    return {
-      type: ActionType.LOAD_FAVORITES_FILMS,
-      payload: movies,
-    };
-  },
-
-  setFavoritesFilms: (movies) => {
-    return {
-      type: ActionType.SET_FAVORITES_FILMS,
-      payload: movies,
-    };
-  },
 };
 
 const Operation = {
@@ -75,13 +58,6 @@ const Operation = {
         dispatch(ActionCreator.loadPromoFilm(getAdaptedFilm(response.data)));
       });
   },
-
-  loadFavoritesFilms: () => (dispatch, getState, api) => {
-    return api.get(`/favorite`)
-      .then((response) => {
-        dispatch(ActionCreator.loadFavoritesFilms(response.data.map((film) => getAdaptedFilm(film))));
-      });
-  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -100,16 +76,6 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_GENRES:
       return extend(state, {
         genres: action.payload,
-      });
-
-    case ActionType.LOAD_FAVORITES_FILMS:
-      return extend(state, {
-        favoritesFilms: action.payload,
-      });
-
-    case ActionType.SET_FAVORITES_FILMS:
-      return extend(state, {
-        favoritesFilms: action.payload,
       });
   }
 

@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import {Switch, Route, Router} from "react-router-dom";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer/app-state/app-state.js";
-import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player.jsx";
 import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
-import {getGenres, getPromoFilm, getFilmsByGenre, getFavoritesFilms} from "../../reducer/data/selectors.js";
+import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
 import {getCurrentGenre, getFilmsLength} from "../../reducer/app-state/selectors.js";
-import {getAuthorizationStatus, getShowSendError} from "../../reducer/user/selectors.js";
+import {getAuthorizationStatus, getShowSendError, getFavoritesFilms} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import Loader from "../loader/loader.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
@@ -39,6 +38,7 @@ class App extends PureComponent {
       login,
       sendReview,
     } = this.props;
+    console.log(favoritesFilms);
 
     if (films === null || promoFilm === null || genres === null) {
       return (
@@ -161,16 +161,17 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.dropIsPlayingFilm());
   },
 
-  onAddButtonClick(movies) {
-    dispatch(DataActionCreator.setFavoritesFilms(movies));
-  },
-
   login(authData) {
     dispatch(UserOperation.login(authData));
+    dispatch(UserOperation.loadFavoritesFilms());
   },
 
   sendReview(reviewData) {
     dispatch(UserOperation.sendReview(reviewData));
+  },
+
+  onAddButtonClick(id, status) {
+    dispatch(UserOperation.addFilmsToFavorites(id, status));
   },
 });
 

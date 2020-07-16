@@ -10,3 +10,7 @@ export const getAuthorizationStatus = (state) => {
 export const getShowSendError = (state) => {
   return state[NAME_SPACE].showSendError;
 };
+
+export const getFavoritesFilms = (state) => {
+  return state[NAME_SPACE].favoritesFilms;
+};

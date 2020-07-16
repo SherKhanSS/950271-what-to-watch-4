@@ -6,7 +6,6 @@ import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import ShowMore from "../show-more/show-more.jsx";
 import history from "../../history.js";
-import {getNewFavoritesFilms} from "../../utils.js";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
@@ -21,7 +20,7 @@ const Main = (props) => {
     onGenresItemClick,
     onShowMoreClick,
     isAuthorized,
-    onAddButtonClick
+    onAddButtonClick,
   } = props;
   const {title, genre, year, cover, poster, id} = film;
 
@@ -100,7 +99,8 @@ const Main = (props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-                    onAddButtonClick(getNewFavoritesFilms(favoritesFilms, film));
+                    let status = favoritesFilms.includes(film) ? 0 : 1;
+                    onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">
                   {favoritesFilms.includes(film)
