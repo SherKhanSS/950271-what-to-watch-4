@@ -7,7 +7,6 @@ import MoviesList from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import history from "../../history.js";
 import {getCurentFilm} from "../../utils.js";
-import {getNewFavoritesFilms} from "../../utils.js";
 
 const TabsWrapped = withTabs(Tabs);
 const MoviesListWrapped = withMoviesList(MoviesList);
@@ -15,9 +14,10 @@ const MoviesListWrapped = withMoviesList(MoviesList);
 const MAX_FILMS_LENGHT = 4;
 
 const MoviePage = (props) => {
-  const {films, favoritesFilms, isAuthorized, onAddButtonClick} = props;
+  const {films, favoritesFilms, reviews, isAuthorized, onAddButtonClick, onFilmCardClick} = props;
   const film = getCurentFilm(films, props);
   const {title, genre, year, poster, cover, id} = film;
+  let isFavorites = !favoritesFilms.find((movie) => movie.id === id);
 
   return (
     <>
@@ -96,17 +96,16 @@ const MoviePage = (props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-                    onAddButtonClick(getNewFavoritesFilms(favoritesFilms, film));
+                    let status = isFavorites ? 1 : 0;
+                    onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">
-                  {favoritesFilms.includes(film)
-                    ? (
-                      <svg viewBox="0 0 18 14" width="18" height="14">
-                        <use xlinkHref="#in-list"></use>
-                      </svg>
-                    )
-                    : (<svg viewBox="0 0 19 20" width="19" height="20">
+                  {isFavorites
+                    ? (<svg viewBox="0 0 19 20" width="19" height="20">
                       <use xlinkHref="#add"></use>
+                    </svg>)
+                    : (<svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
                     </svg>)
                   }
                   <span>My list</span>
@@ -138,6 +137,7 @@ const MoviePage = (props) => {
 
             <TabsWrapped
               film={film}
+              reviews={reviews}
             />
 
           </div>
@@ -150,6 +150,7 @@ const MoviePage = (props) => {
 
           <MoviesListWrapped
             films={films.filter((movie) => movie.genre === genre).slice(0, MAX_FILMS_LENGHT)}
+            onFilmCardClick={onFilmCardClick}
           />
 
         </section>
@@ -190,6 +191,8 @@ MoviePage.propTypes = {
   favoritesFilms: PropTypes.array,
   isAuthorized: PropTypes.bool.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
+  onFilmCardClick: PropTypes.func.isRequired,
+  reviews: PropTypes.array,
 };
 
 export default MoviePage;

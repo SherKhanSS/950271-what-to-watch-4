@@ -12,7 +12,8 @@ exports[`Render MyList 1`] = `
     >
       <a
         className="logo__link"
-        href="main.html"
+        href="/"
+        onClick={[Function]}
       >
         <span
           className="logo__letter logo__letter--1"
@@ -90,34 +91,6 @@ exports[`Render MyList 1`] = `
           </a>
         </h3>
       </article>
-      <article
-        className="small-movie-card catalog__movies-card"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-      >
-        <div
-          className="small-movie-card__image"
-          onClick={[Function]}
-        >
-          <img
-            alt="Bohemian Rhapsody"
-            height="175"
-            src="img/bohemian-rhapsody.jpg"
-            width="280"
-          />
-        </div>
-        <h3
-          className="small-movie-card__title"
-          onClick={[Function]}
-        >
-          <a
-            className="small-movie-card__link"
-            href="movie-page.html"
-          >
-            Bohemian Rhapsody
-          </a>
-        </h3>
-      </article>
     </div>
   </section>
   <footer
@@ -128,7 +101,8 @@ exports[`Render MyList 1`] = `
     >
       <a
         className="logo__link logo__link--light"
-        href="main.html"
+        href="/"
+        onClick={[Function]}
       >
         <span
           className="logo__letter logo__letter--1"

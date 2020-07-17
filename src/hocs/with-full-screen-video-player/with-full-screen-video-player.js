@@ -84,8 +84,6 @@ const withFullScreenVideoPlayer = (Component) => {
     }
 
     render() {
-      const {onPlayerExitClick} = this.props;
-
       return (<Component
         {...this.props}
         isPlay={this.state.isPlay}
@@ -93,7 +91,6 @@ const withFullScreenVideoPlayer = (Component) => {
         currentProgress={Math.floor(this.state.progress * 100 / this.state.duration).toString()}
         onPlayPauseButtonClick={this.handlePlayPauseButtonClick}
         onFullScreenClick={this.handleFullScreenClick}
-        onPlayerExitClick={onPlayerExitClick}
       >
         <video
           ref={this._videoRef}
@@ -109,7 +106,6 @@ const withFullScreenVideoPlayer = (Component) => {
     films: PropTypes.any,
     poster: PropTypes.any,
     videoLink: PropTypes.any,
-    onPlayerExitClick: PropTypes.any,
     match: PropTypes.any,
     params: PropTypes.any,
     id: PropTypes.any,

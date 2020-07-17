@@ -4,7 +4,7 @@ import MovieCard from "../movie-card/movie-card.jsx";
 
 const MoviesList = (props) => {
 
-  const {films, title, onFilmCardMouseEnter, onFilmCardMouseLeave} = props;
+  const {films, title, onFilmCardMouseEnter, onFilmCardMouseLeave, onFilmCardClick} = props;
 
   return (
     <div className="catalog__movies-list">
@@ -18,6 +18,7 @@ const MoviesList = (props) => {
             isPlaying={title === film.title}
             onFilmCardMouseEnter={onFilmCardMouseEnter}
             onFilmCardMouseLeave={onFilmCardMouseLeave}
+            onFilmCardClick={onFilmCardClick}
             key={film.title + index}
           />
         );
@@ -31,6 +32,7 @@ MoviesList.propTypes = {
   title: PropTypes.any,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
   onFilmCardMouseLeave: PropTypes.func.isRequired,
+  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default MoviesList;

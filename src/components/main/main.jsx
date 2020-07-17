@@ -21,8 +21,11 @@ const Main = (props) => {
     onShowMoreClick,
     isAuthorized,
     onAddButtonClick,
+    onFilmCardClick,
   } = props;
   const {title, genre, year, cover, poster, id} = film;
+
+  let isFavorites = !favoritesFilms.find((movie) => movie.id === id);
 
   return (
     <>
@@ -99,18 +102,16 @@ const Main = (props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-                    let status = favoritesFilms.includes(film) ? 0 : 1;
+                    let status = isFavorites ? 1 : 0;
                     onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">
-                  {favoritesFilms.includes(film)
-                    ? (
-                      <svg viewBox="0 0 18 14" width="18" height="14">
-                        <use xlinkHref="#in-list"></use>
-                      </svg>
-                    )
-                    : (<svg viewBox="0 0 19 20" width="19" height="20">
+                  {isFavorites
+                    ? (<svg viewBox="0 0 19 20" width="19" height="20">
                       <use xlinkHref="#add"></use>
+                    </svg>)
+                    : (<svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
                     </svg>)
                   }
                   <span>My list</span>
@@ -133,6 +134,7 @@ const Main = (props) => {
 
           <MoviesListWrapped
             films={films.slice(0, filmsLength)}
+            onFilmCardClick={onFilmCardClick}
           />
 
           {filmsLength < films.length
@@ -179,6 +181,7 @@ Main.propTypes = {
   onShowMoreClick: PropTypes.func.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
+  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default Main;

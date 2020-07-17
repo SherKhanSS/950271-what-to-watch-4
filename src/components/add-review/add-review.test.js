@@ -1,8 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import {Router} from "react-router-dom";
+import history from "../../history.js";
 import AddReview from "./add-review.jsx";
 
-const promoFilm = {
+const films = [{
   id: 1,
   title: `The Grand Budapest Hotel`,
   genre: `Drama`,
@@ -16,19 +18,34 @@ const promoFilm = {
   textPartTwo: `Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.`,
   director: `Wes Andreson`,
   starring: [`Bill Murray`, `Edward Norton`, `Jude Law`, `Willem Dafoe`],
+}];
+
+const match = {
+  params: {
+    id: 1,
+  }
 };
 
 it(`Render AddReview`, () => {
   const tree = renderer
-    .create(<AddReview
-      film={promoFilm}
-      showSendError={false}
-      onSubmitReview={() => {}}
-    />, {
-      createNodeMock: () => {
-        return {};
-      }
-    })
+    .create(
+        <Router
+          history={history}
+        >
+          <AddReview
+            match={match}
+            films={films}
+            showSendError={false}
+            onReviewSuccess={false}
+            isSent={false}
+            onSubmitReview={() => {}}
+          />
+        </Router>
+        , {
+          createNodeMock: () => {
+            return {};
+          }
+        })
     .toJSON();
 
   expect(tree).toMatchSnapshot();

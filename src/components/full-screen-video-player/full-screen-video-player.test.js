@@ -13,7 +13,6 @@ it(`Render FullScreenVideoPlayer`, () => {
       currentProgress={`0`}
       onPlayPauseButtonClick={() => {}}
       onFullScreenClick={() => {}}
-      onPlayerExitClick={() => {}}
       poster={poster}
       preview={preview}
     />, {

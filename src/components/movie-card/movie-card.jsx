@@ -9,7 +9,7 @@ class MovieCard extends PureComponent {
   }
 
   render() {
-    const {title, poster, preview, id, isPlaying, onFilmCardMouseEnter, onFilmCardMouseLeave} = this.props;
+    const {title, poster, preview, id, isPlaying, onFilmCardMouseEnter, onFilmCardMouseLeave, onFilmCardClick} = this.props;
 
     return (
       <article
@@ -22,6 +22,7 @@ class MovieCard extends PureComponent {
         <div
           onClick={() => {
             history.push(`/films/${id}`);
+            onFilmCardClick(id);
           }}
           className="small-movie-card__image">
           {isPlaying ? (
@@ -40,6 +41,7 @@ class MovieCard extends PureComponent {
           onClick={(evt) => {
             evt.preventDefault();
             history.push(`/films/${id}`);
+            onFilmCardClick(id);
           }}
           className="small-movie-card__title">
           <a className="small-movie-card__link" href="movie-page.html">{title}</a>
@@ -58,6 +60,7 @@ MovieCard.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
   onFilmCardMouseLeave: PropTypes.func.isRequired,
+  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

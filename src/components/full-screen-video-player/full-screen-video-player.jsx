@@ -11,7 +11,14 @@ const formatTime = (time) => {
 };
 
 const FullScreenVideoPlayer = (props) => {
-  const {isPlay, timeElapsed, currentProgress, onPlayPauseButtonClick, onFullScreenClick, onPlayerExitClick, children} = props;
+  const {
+    isPlay,
+    timeElapsed,
+    currentProgress,
+    onPlayPauseButtonClick,
+    onFullScreenClick,
+    children
+  } = props;
 
   return (
     <div className="player">
@@ -92,7 +99,6 @@ FullScreenVideoPlayer.propTypes = {
   currentProgress: PropTypes.string.isRequired,
   onPlayPauseButtonClick: PropTypes.func.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
-  onPlayerExitClick: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
