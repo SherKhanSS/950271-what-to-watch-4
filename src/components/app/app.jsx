@@ -41,6 +41,7 @@ class App extends PureComponent {
       sendReview,
       isSent,
       onFilmCardClick,
+      onClosingReview,
     } = this.props;
 
     if (films === null || promoFilm === null || genres === null) {
@@ -97,6 +98,7 @@ class App extends PureComponent {
                   onReviewSuccess={onReviewSuccess}
                   isSent={isSent}
                   onSubmitReview={sendReview}
+                  onClosingReview={onClosingReview}
                 />
               )
               : <Redirect to={`/login`} />}>
@@ -149,6 +151,7 @@ App.propTypes = {
   onReviewSuccess: PropTypes.bool.isRequired,
   isSent: PropTypes.bool.isRequired,
   onFilmCardClick: PropTypes.func.isRequired,
+  onClosingReview: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -194,6 +197,11 @@ const mapDispatchToProps = (dispatch) => ({
 
   onFilmCardClick(id) {
     dispatch(UserOperation.loadReview(id));
+  },
+
+  onClosingReview() {
+    dispatch(UserActionCreator.setShowSendError(false));
+    dispatch(UserActionCreator.sendReview(false));
   },
 });
 

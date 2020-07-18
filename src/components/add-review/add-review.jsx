@@ -14,6 +14,20 @@ class AddReview extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidUpdate() {
+    const {onReviewSuccess} = this.props;
+    const {id} = getCurentFilm(this.props.films, this.props);
+
+    if (onReviewSuccess) {
+      history.push(`/films/${id}`);
+    }
+  }
+
+  componentWillUnmount() {
+    const {onClosingReview} = this.props;
+    onClosingReview();
+  }
+
   handleSubmit(evt) {
     const {onSubmitReview} = this.props;
     const {id} = getCurentFilm(this.props.films, this.props);
@@ -27,7 +41,7 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {films, showSendError, onReviewSuccess, isSent} = this.props;
+    const {films, showSendError, isSent} = this.props;
     const film = getCurentFilm(films, this.props);
     const {title, poster, cover, id} = film;
 
@@ -72,7 +86,7 @@ class AddReview extends PureComponent {
                 style={{
                   display: `block`,
                 }}>
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                <img src="/img/avatar.jpg" alt="User avatar" width="63" height="63" />
               </Link>
             </div>
           </header>
@@ -117,9 +131,6 @@ class AddReview extends PureComponent {
                     You have broken the most reliable application in the world! They are coming for you!
                 </div>)
                 : null}
-              {onReviewSuccess
-                ? history.push(`/films/${id}`)
-                : null}
             </div>
 
             <div className="add-review__text">
@@ -151,6 +162,7 @@ AddReview.propTypes = {
   onSubmitReview: PropTypes.func.isRequired,
   showSendError: PropTypes.bool.isRequired,
   onReviewSuccess: PropTypes.bool.isRequired,
+  onClosingReview: PropTypes.func.isRequired,
   isSent: PropTypes.bool.isRequired,
   match: PropTypes.any,
   params: PropTypes.any,

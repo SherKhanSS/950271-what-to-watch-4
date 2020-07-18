@@ -39,6 +39,7 @@ it(`Render AddReview`, () => {
             onReviewSuccess={false}
             isSent={false}
             onSubmitReview={() => {}}
+            onClosingReview={() => {}}
           />
         </Router>
         , {

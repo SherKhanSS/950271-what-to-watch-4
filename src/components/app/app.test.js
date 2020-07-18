@@ -133,6 +133,7 @@ it(`Render App`, () => {
             sendReview={() => {}}
             isSent={false}
             onFilmCardClick={() => {}}
+            onClosingReview={() => {}}
           />
         </Provider>, {
           createNodeMock: () => {

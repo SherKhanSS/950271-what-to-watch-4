@@ -49,8 +49,7 @@ const MoviePage = (props) => {
                   style={{
                     display: `block`,
                   }}>
-                  {/* здесь проблема с загрузкой аватара, путь переопределяется что ли у img */}
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                  <img src="/img/avatar.jpg" alt="User avatar" width="63" height="63" />
                 </Link>
                 : <Link
                   to={`/login`}
