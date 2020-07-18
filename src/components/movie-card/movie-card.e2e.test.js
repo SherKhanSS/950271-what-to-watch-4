@@ -11,8 +11,8 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`When you click on a title, a callback is called with the value of the title.`, () => {
-  const onFilmTitleClick = jest.fn();
+it(`When you click on a title, a callback is called with the value of the id.`, () => {
+  const onFilmCardClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
   const onFilmCardMouseLeave = jest.fn();
 
@@ -21,8 +21,9 @@ it(`When you click on a title, a callback is called with the value of the title.
         title={title}
         poster={poster}
         preview={preview}
+        id={1}
         isPlaying={false}
-        onFilmTitleClick={() => onFilmTitleClick({title})}
+        onFilmCardClick={() => onFilmCardClick(1)}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
         onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
@@ -31,14 +32,14 @@ it(`When you click on a title, a callback is called with the value of the title.
   const filmTitle = main.find(`h3.small-movie-card__title`);
 
   filmTitle.simulate(`click`, {
-    preventDefault: onFilmTitleClick,
+    preventDefault: onFilmCardClick,
   });
 
-  expect(onFilmTitleClick).toHaveBeenCalledWith({title});
+  expect(onFilmCardClick).toHaveBeenCalledWith(1);
 });
 
-it(`When you click on a poster, a callback is called with the title value of the movie.`, () => {
-  const onFilmTitleClick = jest.fn();
+it(`When you click on a poster, a callback is called with the title value of the movie id.`, () => {
+  const onFilmCardClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
   const onFilmCardMouseLeave = jest.fn();
 
@@ -47,8 +48,9 @@ it(`When you click on a poster, a callback is called with the title value of the
         title={title}
         poster={poster}
         preview={preview}
+        id={1}
         isPlaying={false}
-        onFilmTitleClick={() => onFilmTitleClick({title})}
+        onFilmCardClick={() => onFilmCardClick(1)}
         onFilmCardMouseEnter={onFilmCardMouseEnter}
         onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
@@ -58,11 +60,11 @@ it(`When you click on a poster, a callback is called with the title value of the
 
   filmImage.simulate(`click`);
 
-  expect(onFilmTitleClick).toHaveBeenCalledWith({title});
+  expect(onFilmCardClick).toHaveBeenCalledWith(1);
 });
 
 it(`checks that when you hover over the card with the movie, the movie information gets to the handler`, () => {
-  const onFilmTitleClick = jest.fn();
+  const onFilmCardClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
   const onFilmCardMouseLeave = jest.fn();
 
@@ -71,8 +73,9 @@ it(`checks that when you hover over the card with the movie, the movie informati
         title={title}
         poster={poster}
         preview={preview}
+        id={1}
         isPlaying={false}
-        onFilmTitleClick={onFilmTitleClick}
+        onFilmCardClick={onFilmCardClick}
         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
         onFilmCardMouseLeave={onFilmCardMouseLeave}
       />
@@ -86,7 +89,7 @@ it(`checks that when you hover over the card with the movie, the movie informati
 });
 
 it(`checks that when the cursor leaves the card, a callback is called`, () => {
-  const onFilmTitleClick = jest.fn();
+  const onFilmCardClick = jest.fn();
   const onFilmCardMouseEnter = jest.fn();
   const onFilmCardMouseLeave = jest.fn();
 
@@ -95,8 +98,9 @@ it(`checks that when the cursor leaves the card, a callback is called`, () => {
         title={title}
         poster={poster}
         preview={preview}
+        id={1}
         isPlaying={false}
-        onFilmTitleClick={onFilmTitleClick}
+        onFilmCardClick={onFilmCardClick}
         onFilmCardMouseEnter={() => onFilmCardMouseEnter({title, poster})}
         onFilmCardMouseLeave={onFilmCardMouseLeave}
       />

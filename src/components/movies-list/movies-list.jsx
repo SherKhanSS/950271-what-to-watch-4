@@ -4,7 +4,7 @@ import MovieCard from "../movie-card/movie-card.jsx";
 
 const MoviesList = (props) => {
 
-  const {films, onFilmTitleClick, title, onFilmCardMouseEnter, onFilmCardMouseLeave} = props;
+  const {films, title, onFilmCardMouseEnter, onFilmCardMouseLeave, onFilmCardClick} = props;
 
   return (
     <div className="catalog__movies-list">
@@ -14,10 +14,11 @@ const MoviesList = (props) => {
             title={film.title}
             poster={film.previewImage}
             preview={film.preview}
+            id={film.id}
             isPlaying={title === film.title}
-            onFilmTitleClick={onFilmTitleClick}
             onFilmCardMouseEnter={onFilmCardMouseEnter}
             onFilmCardMouseLeave={onFilmCardMouseLeave}
+            onFilmCardClick={onFilmCardClick}
             key={film.title + index}
           />
         );
@@ -29,9 +30,9 @@ const MoviesList = (props) => {
 MoviesList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   title: PropTypes.any,
-  onFilmTitleClick: PropTypes.func.isRequired,
   onFilmCardMouseEnter: PropTypes.func.isRequired,
   onFilmCardMouseLeave: PropTypes.func.isRequired,
+  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default MoviesList;

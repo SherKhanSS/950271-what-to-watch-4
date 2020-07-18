@@ -2,9 +2,6 @@ import React, {PureComponent, Fragment} from "react";
 import PropTypes from "prop-types";
 import Comments from "../comments/comments.jsx";
 
-// временно моки
-import {comments} from "../../adapter/adapter.js";
-
 class Tabs extends PureComponent {
   constructor(props) {
     super(props);
@@ -40,6 +37,8 @@ class Tabs extends PureComponent {
 
   getComponentByTab(tab) {
 
+
+    const {reviews} = this.props;
     const {genre, year, runTime, ratingScore, ratingCount, description, director, starring} = this.props.film;
 
     switch (tab) {
@@ -133,10 +132,10 @@ class Tabs extends PureComponent {
           <div className="movie-card__reviews movie-card__row">
 
             <Comments
-              comments={comments.slice(0, 3)}
+              comments={reviews.slice(0, 3)}
             />
             <Comments
-              comments={comments.slice(3, 7)}
+              comments={reviews.slice(3, 7)}
             />
 
           </div>
@@ -193,6 +192,7 @@ Tabs.propTypes = {
   }),
   tabCurrent: PropTypes.any,
   onTabClick: PropTypes.any,
+  reviews: PropTypes.array,
 };
 
 export default Tabs;

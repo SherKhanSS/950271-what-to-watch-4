@@ -18,6 +18,18 @@ const withMoviesList = (Component) => {
       this.handleFilmCardMouseLeave = this.handleFilmCardMouseLeave.bind(this);
     }
 
+    componentWillUnmount() {
+      const {timerId} = this.state;
+
+      this.setState({
+        title: null,
+        poster: null,
+        timerId: null,
+      });
+
+      clearTimeout(timerId);
+    }
+
     handleFilmCardMouseEnter(titleActive, posterActive) {
 
       const timer = setTimeout(() => {

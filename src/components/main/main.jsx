@@ -10,9 +10,22 @@ import history from "../../history.js";
 const MoviesListWrapped = withMoviesList(MoviesList);
 
 const Main = (props) => {
+  const {
+    films,
+    film,
+    genres,
+    favoritesFilms,
+    currentGenre,
+    filmsLength,
+    onGenresItemClick,
+    onShowMoreClick,
+    isAuthorized,
+    onAddButtonClick,
+    onFilmCardClick,
+  } = props;
+  const {title, genre, year, cover, poster, id} = film;
 
-  const {title, genre, year, cover, poster} = props.film;
-  const {films, genres, currentGenre, filmsLength, onFilmTitleClick, onGenresItemClick, onShowMoreClick, onPlayButtonClick, isAuthorized, filmsAddedToWatch, onAddButtonClick} = props;
+  let isFavorites = !favoritesFilms.find((movie) => movie.id === id);
 
   return (
     <>
@@ -43,7 +56,7 @@ const Main = (props) => {
                 style={{
                   display: `block`,
                 }}>
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                <img src="/img/avatar.jpg" alt="User avatar" width="63" height="63" />
               </Link>
               : <Link
                 to={`/login`}
@@ -75,7 +88,7 @@ const Main = (props) => {
               <div className="movie-card__buttons">
                 <button
                   onClick={() => {
-                    onPlayButtonClick();
+                    history.push(`/films/${id}/player`);
                   }}
                   className="btn btn--play movie-card__button"
                   type="button">
@@ -89,24 +102,16 @@ const Main = (props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-
-                    let newFilmsAddedToWatch = new Set([...filmsAddedToWatch]);
-                    if (filmsAddedToWatch.has(title)) {
-                      newFilmsAddedToWatch.delete(title);
-                    } else {
-                      newFilmsAddedToWatch.add(title);
-                    }
-                    onAddButtonClick(newFilmsAddedToWatch);
+                    let status = isFavorites ? 1 : 0;
+                    onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">
-                  {filmsAddedToWatch.has(title)
-                    ? (
-                      <svg viewBox="0 0 18 14" width="18" height="14">
-                        <use xlinkHref="#in-list"></use>
-                      </svg>
-                    )
-                    : (<svg viewBox="0 0 19 20" width="19" height="20">
+                  {isFavorites
+                    ? (<svg viewBox="0 0 19 20" width="19" height="20">
                       <use xlinkHref="#add"></use>
+                    </svg>)
+                    : (<svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
                     </svg>)
                   }
                   <span>My list</span>
@@ -129,7 +134,7 @@ const Main = (props) => {
 
           <MoviesListWrapped
             films={films.slice(0, filmsLength)}
-            onFilmTitleClick={onFilmTitleClick}
+            onFilmCardClick={onFilmCardClick}
           />
 
           {filmsLength < films.length
@@ -165,18 +170,18 @@ Main.propTypes = {
     year: PropTypes.number.isRequired,
     cover: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }),
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesFilms: PropTypes.array,
   genres: PropTypes.array.isRequired,
   currentGenre: PropTypes.string.isRequired,
   filmsLength: PropTypes.number.isRequired,
-  onFilmTitleClick: PropTypes.func.isRequired,
   onGenresItemClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
   onAddButtonClick: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool.isRequired,
-  filmsAddedToWatch: PropTypes.object,
+  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default Main;

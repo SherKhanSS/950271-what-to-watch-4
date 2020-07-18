@@ -1,5 +1,6 @@
 import React, {PureComponent, createRef} from 'react';
 import PropTypes from "prop-types";
+import {getCurentFilm} from "../../utils.js";
 
 const withFullScreenVideoPlayer = (Component) => {
   class WithFullScreenVideoPlayer extends PureComponent {
@@ -21,7 +22,10 @@ const withFullScreenVideoPlayer = (Component) => {
     }
 
     componentDidMount() {
-      const {poster, videoLink} = this.props;
+      const {films} = this.props;
+      const film = getCurentFilm(films, this.props);
+      const {poster, videoLink} = film;
+
       const video = this._videoRef.current;
 
       video.poster = poster;
@@ -80,8 +84,6 @@ const withFullScreenVideoPlayer = (Component) => {
     }
 
     render() {
-      const {onPlayerExitClick} = this.props;
-
       return (<Component
         {...this.props}
         isPlay={this.state.isPlay}
@@ -89,7 +91,6 @@ const withFullScreenVideoPlayer = (Component) => {
         currentProgress={Math.floor(this.state.progress * 100 / this.state.duration).toString()}
         onPlayPauseButtonClick={this.handlePlayPauseButtonClick}
         onFullScreenClick={this.handleFullScreenClick}
-        onPlayerExitClick={onPlayerExitClick}
       >
         <video
           ref={this._videoRef}
@@ -102,9 +103,12 @@ const withFullScreenVideoPlayer = (Component) => {
   }
 
   WithFullScreenVideoPlayer.propTypes = {
+    films: PropTypes.any,
     poster: PropTypes.any,
     videoLink: PropTypes.any,
-    onPlayerExitClick: PropTypes.any,
+    match: PropTypes.any,
+    params: PropTypes.any,
+    id: PropTypes.any,
   };
 
   return WithFullScreenVideoPlayer;

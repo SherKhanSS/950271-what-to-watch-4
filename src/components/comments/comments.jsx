@@ -30,13 +30,12 @@ const Comments = (props) => {
       {comments.map((comment, index) => {
         return (
           <div
-            key={comment.author + index}
+            key={comment.id + index}
             className="review">
             <blockquote className="review__quote">
-              <p className="review__text">{comment.text}</p>
-
+              <p className="review__text">{comment.comment}</p>
               <footer className="review__details">
-                <cite className="review__author">{comment.author}</cite>
+                <cite className="review__author">{comment.user.name}</cite>
                 <time className="review__date" dateTime={comment.date}>
                   {formatDate(new Date(comment.date))}
                 </time>
@@ -52,7 +51,7 @@ const Comments = (props) => {
 };
 
 Comments.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  comments: PropTypes.array,
 };
 
 export default Comments;

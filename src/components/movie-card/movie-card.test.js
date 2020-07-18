@@ -12,8 +12,9 @@ it(`Render MovieCard`, () => {
       title={title}
       poster={poster}
       preview={preview}
+      id={1}
       isPlaying={false}
-      onFilmTitleClick={() => {}}
+      onFilmCardClick={() => {}}
       onFilmCardMouseEnter={() => {}}
       onFilmCardMouseLeave={() => {}}
     />, {

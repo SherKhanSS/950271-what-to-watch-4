@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import history from "../../history.js";
 
 const formatTime = (time) => {
   let hours = Math.floor(time / 60 / 60);
@@ -10,7 +11,14 @@ const formatTime = (time) => {
 };
 
 const FullScreenVideoPlayer = (props) => {
-  const {isPlay, timeElapsed, currentProgress, onPlayPauseButtonClick, onFullScreenClick, onPlayerExitClick, children} = props;
+  const {
+    isPlay,
+    timeElapsed,
+    currentProgress,
+    onPlayPauseButtonClick,
+    onFullScreenClick,
+    children
+  } = props;
 
   return (
     <div className="player">
@@ -32,7 +40,7 @@ const FullScreenVideoPlayer = (props) => {
 
       <button
         onClick={() => {
-          onPlayerExitClick();
+          history.goBack();
         }} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
@@ -91,7 +99,6 @@ FullScreenVideoPlayer.propTypes = {
   currentProgress: PropTypes.string.isRequired,
   onPlayPauseButtonClick: PropTypes.func.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
-  onPlayerExitClick: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
