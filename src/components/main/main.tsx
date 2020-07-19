@@ -1,15 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {Link} from "react-router-dom";
-import GenresList from "../genres-list/genres-list.jsx";
-import MoviesList from "../movies-list/movies-list.jsx";
-import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
-import ShowMore from "../show-more/show-more.jsx";
-import history from "../../history.js";
+import GenresList from "../genres-list/genres-list";
+import MoviesList from "../movies-list/movies-list";
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list";
+import ShowMore from "../show-more/show-more";
+import history from "../../history";
+import {Film} from "../../types";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
-const Main = (props) => {
+interface Props {
+  films: Film[];
+  film: Film;
+  genres: string[];
+  favoritesFilms: Film[];
+  currentGenre: string;
+  filmsLength: number;
+  isAuthorized: boolean;
+  onGenresItemClick: () => void;
+  onShowMoreClick: () => void;
+  onAddButtonClick: (id: number, status: number) => void;
+  onFilmCardClick: () => void;
+}
+
+const Main: React.FunctionComponent<Props> = (props: Props) => {
   const {
     films,
     film,
@@ -161,27 +175,6 @@ const Main = (props) => {
       </div>
     </>
   );
-};
-
-Main.propTypes = {
-  film: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    cover: PropTypes.string.isRequired,
-    poster: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }),
-  films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesFilms: PropTypes.array,
-  genres: PropTypes.array.isRequired,
-  currentGenre: PropTypes.string.isRequired,
-  filmsLength: PropTypes.number.isRequired,
-  onGenresItemClick: PropTypes.func.isRequired,
-  onShowMoreClick: PropTypes.func.isRequired,
-  onAddButtonClick: PropTypes.func.isRequired,
-  isAuthorized: PropTypes.bool.isRequired,
-  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default Main;

@@ -1,10 +1,22 @@
-import React, {PureComponent} from 'react';
-import PropTypes from "prop-types";
+import * as React from "react";
+import {Subtract} from "utility-types";
 
 const TAB_DEFAULT = `Overview`;
 
+interface State {
+  activeTab: string;
+}
+
+interface InjectingProps {
+  tabCurrent: string;
+  onTabClick: () => void;
+}
+
 const withTabs = (Component) => {
-  class WithTabs extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectingProps>;
+
+  class WithTabs extends React.PureComponent<T, State> {
     constructor(props) {
       super(props);
 
@@ -29,11 +41,6 @@ const withTabs = (Component) => {
       />);
     }
   }
-
-  WithTabs.propTypes = {
-    tabCurrent: PropTypes.any,
-    onTabClick: PropTypes.any,
-  };
 
   return WithTabs;
 };

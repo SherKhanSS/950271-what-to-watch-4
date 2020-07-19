@@ -1,6 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
-import history from "../../history.js";
+import * as React from "react";
+import history from "../../history";
 
 const formatTime = (time) => {
   let hours = Math.floor(time / 60 / 60);
@@ -10,14 +9,23 @@ const formatTime = (time) => {
   return `${hours}:${minutes}:${seconds}`;
 };
 
-const FullScreenVideoPlayer = (props) => {
+interface Props {
+  isPlay: boolean;
+  timeElapsed: number;
+  currentProgress: number;
+  onPlayPauseButtonClick: () => void;
+  onFullScreenClick: () => void;
+  children: React.ReactNode;
+}
+
+const FullScreenVideoPlayer: React.FunctionComponent<Props> = (props: Props) => {
   const {
     isPlay,
     timeElapsed,
     currentProgress,
     onPlayPauseButtonClick,
     onFullScreenClick,
-    children
+    children,
   } = props;
 
   return (
@@ -91,15 +99,6 @@ const FullScreenVideoPlayer = (props) => {
       </div>
     </div>
   );
-};
-
-FullScreenVideoPlayer.propTypes = {
-  isPlay: PropTypes.bool.isRequired,
-  timeElapsed: PropTypes.any,
-  currentProgress: PropTypes.string.isRequired,
-  onPlayPauseButtonClick: PropTypes.func.isRequired,
-  onFullScreenClick: PropTypes.func.isRequired,
-  children: PropTypes.node,
 };
 
 export default FullScreenVideoPlayer;

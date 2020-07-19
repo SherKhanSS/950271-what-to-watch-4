@@ -1,26 +1,48 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer/app-state/app-state.js";
-import Main from "../main/main.jsx";
-import MoviePage from "../movie-page/movie-page.jsx";
-import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player.jsx";
-import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player.js";
-import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors.js";
-import {getCurrentGenre, getFilmsLength} from "../../reducer/app-state/selectors.js";
-import {getAuthorizationStatus, getOnReviewSuccess, getShowSendError, getFavoritesFilms, getReviews, getIsSent} from "../../reducer/user/selectors.js";
-import {Operation as UserOperation, ActionCreator as UserActionCreator, AuthorizationStatus} from "../../reducer/user/user.js";
-import Loader from "../loader/loader.jsx";
-import SignIn from "../sign-in/sign-in.jsx";
-import history from "../../history.js";
-import AddReview from "../add-review/add-review.jsx";
-import MyList from "../my-list/my-list.jsx";
-import PrivateRoute from "../private-route/private-route.jsx";
+import {ActionCreator} from "../../reducer/app-state/app-state";
+import Main from "../main/main";
+import MoviePage from "../movie-page/movie-page";
+import FullScreenVideoPlayer from "../full-screen-video-player/full-screen-video-player";
+import withFullScreenVideoPlayer from "../../hocs/with-full-screen-video-player/with-full-screen-video-player";
+import {getGenres, getPromoFilm, getFilmsByGenre} from "../../reducer/data/selectors";
+import {getCurrentGenre, getFilmsLength} from "../../reducer/app-state/selectors";
+import {getAuthorizationStatus, getOnReviewSuccess, getShowSendError, getFavoritesFilms, getReviews, getIsSent} from "../../reducer/user/selectors";
+import {Operation as UserOperation, ActionCreator as UserActionCreator, AuthorizationStatus} from "../../reducer/user/user";
+import Loader from "../loader/loader";
+import SignIn from "../sign-in/sign-in";
+import history from "../../history";
+import AddReview from "../add-review/add-review";
+import MyList from "../my-list/my-list";
+import PrivateRoute from "../private-route/private-route";
+import {Film, Review} from "../../types";
 
 const FullScreenVideoPlayerWrapped = withFullScreenVideoPlayer(FullScreenVideoPlayer);
 
-class App extends PureComponent {
+interface Props {
+  films: Film[];
+  promoFilm: Film;
+  reviews: Review[];
+  genres: string[];
+  favoritesFilms: Film[];
+  currentGenre: string;
+  filmsLength: number;
+  showSendError: boolean;
+  onReviewSuccess: boolean;
+  authorizationStatus: string;
+  onGenresItemClick: () => void;
+  onShowMoreClick: () => void;
+  onPlayerExitClick: () => void;
+  onAddButtonClick: () => void;
+  login: () => void;
+  sendReview: () => void;
+  isSent: boolean;
+  onFilmCardClick: () => void;
+  onClosingReview: () => void;
+}
+
+class App extends React.PureComponent<Props, {}> {
   render() {
     const {
       films,
@@ -130,29 +152,6 @@ class App extends PureComponent {
     );
   }
 }
-
-App.propTypes = {
-  genres: PropTypes.any,
-  films: PropTypes.any,
-  favoritesFilms: PropTypes.any,
-  reviews: PropTypes.array,
-  promoFilm: PropTypes.any,
-  currentGenre: PropTypes.string,
-  filmsLength: PropTypes.number.isRequired,
-  isPlayingFilm: PropTypes.bool,
-  authorizationStatus: PropTypes.string.isRequired,
-  onGenresItemClick: PropTypes.func.isRequired,
-  onShowMoreClick: PropTypes.func.isRequired,
-  onPlayerExitClick: PropTypes.func.isRequired,
-  onAddButtonClick: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
-  sendReview: PropTypes.func.isRequired,
-  showSendError: PropTypes.bool.isRequired,
-  onReviewSuccess: PropTypes.bool.isRequired,
-  isSent: PropTypes.bool.isRequired,
-  onFilmCardClick: PropTypes.func.isRequired,
-  onClosingReview: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state) => ({
   genres: getGenres(state),

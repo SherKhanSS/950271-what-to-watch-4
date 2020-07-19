@@ -1,7 +1,12 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 
-class GenresItem extends PureComponent {
+interface Props {
+  genre: string;
+  isActive: boolean;
+  onGenresItemClick: (genre: string) => void;
+}
+
+class GenresItem extends React.PureComponent<Props, {}> {
   constructor(props) {
     super(props);
   }
@@ -22,11 +27,5 @@ class GenresItem extends PureComponent {
     );
   }
 }
-
-GenresItem.propTypes = {
-  genre: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onGenresItemClick: PropTypes.func.isRequired,
-};
 
 export default GenresItem;

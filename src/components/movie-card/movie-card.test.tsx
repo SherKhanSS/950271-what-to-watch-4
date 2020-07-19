@@ -1,20 +1,22 @@
-import React from "react";
+import * as React from "react";
 import renderer from "react-test-renderer";
-import FullScreenVideoPlayer from "./full-screen-video-player.jsx";
+import MovieCard from "./movie-card.jsx";
 
+const title = `Bohemian Rhapsody`;
 const poster = `img/bohemian-rhapsody.jpg`;
 const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
-it(`Render FullScreenVideoPlayer`, () => {
+it(`Render MovieCard`, () => {
   const tree = renderer
-    .create(<FullScreenVideoPlayer
-      isPlay={true}
-      timeElapsed={0}
-      currentProgress={`0`}
-      onPlayPauseButtonClick={() => {}}
-      onFullScreenClick={() => {}}
+    .create(<MovieCard
+      title={title}
       poster={poster}
       preview={preview}
+      id={1}
+      isPlaying={false}
+      onFilmCardClick={() => {}}
+      onFilmCardMouseEnter={() => {}}
+      onFilmCardMouseLeave={() => {}}
     />, {
       createNodeMock: () => {
         return {};

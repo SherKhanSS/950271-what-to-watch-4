@@ -1,15 +1,28 @@
-import React, {PureComponent, createRef} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {Link} from "react-router-dom";
-import {getCurentFilm} from "../../utils.js";
-import history from "../../history.js";
+import {getCurentFilm} from "../../utils";
+import history from "../../history";
+import {Film} from "../../types";
 
-class AddReview extends PureComponent {
+interface Props {
+  films: Film[];
+  showSendError: boolean;
+  onReviewSuccess: boolean;
+  isSent: boolean;
+  id: number;
+  onClosingReview: () => void;
+  onSubmitReview: (id: number, {rating, comment}: {rating: string; comment: string}) => void;
+}
+
+class AddReview extends React.PureComponent<Props, {}> {
+  private reviewRef: React.RefObject<HTMLTextAreaElement>;
+  private formRef: React.RefObject<HTMLFormElement>;
+
   constructor(props) {
     super(props);
 
-    this.reviewRef = createRef();
-    this.formRef = createRef();
+    this.reviewRef = React.createRef();
+    this.formRef = React.createRef();
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -156,17 +169,5 @@ class AddReview extends PureComponent {
     );
   }
 }
-
-AddReview.propTypes = {
-  films: PropTypes.any,
-  onSubmitReview: PropTypes.func.isRequired,
-  showSendError: PropTypes.bool.isRequired,
-  onReviewSuccess: PropTypes.bool.isRequired,
-  onClosingReview: PropTypes.func.isRequired,
-  isSent: PropTypes.bool.isRequired,
-  match: PropTypes.any,
-  params: PropTypes.any,
-  id: PropTypes.any,
-};
 
 export default AddReview;

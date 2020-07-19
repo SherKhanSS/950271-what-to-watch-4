@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+import {Review} from "../../types";
 
 const formatDate = (date) => {
   const MONTH_NAMES = [
@@ -22,7 +22,11 @@ const formatDate = (date) => {
     ${date.getFullYear()}`;
 };
 
-const Comments = (props) => {
+interface Props {
+  comments: Review[];
+}
+
+const Comments: React.FunctionComponent<Props> = (props: Props) => {
   const {comments} = props;
 
   return (
@@ -48,10 +52,6 @@ const Comments = (props) => {
       })}
     </div>
   );
-};
-
-Comments.propTypes = {
-  comments: PropTypes.array,
 };
 
 export default Comments;

@@ -1,9 +1,30 @@
-import React, {PureComponent, createRef} from 'react';
-import PropTypes from "prop-types";
-import {getCurentFilm} from "../../utils.js";
+import * as React from "react";
+import {getCurentFilm} from "../../utils";
+import {Subtract} from "utility-types";
+
+interface State {
+  isPlay: boolean;
+  isFullscreen: boolean;
+  timeElapsed: number;
+  progress: number;
+  duration: number;
+}
+
+interface InjectingProps {
+  isPlay: boolean;
+  timeElapsed: number;
+  currentProgresstimeElapsed: number;
+  onPlayPauseButtonClick: () => void;
+  onFullScreenClick: () => void;
+}
 
 const withFullScreenVideoPlayer = (Component) => {
-  class WithFullScreenVideoPlayer extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectingProps>;
+
+  class WithFullScreenVideoPlayer extends React.PureComponent<T, State> {
+    private _videoRef: React.RefObject<HTMLVideoElement>;
+
     constructor(props) {
       super(props);
 
@@ -15,7 +36,7 @@ const withFullScreenVideoPlayer = (Component) => {
         duration: null,
       };
 
-      this._videoRef = createRef();
+      this._videoRef = React.createRef();
 
       this.handlePlayPauseButtonClick = this.handlePlayPauseButtonClick.bind(this);
       this.handleFullScreenClick = this.handleFullScreenClick.bind(this);
@@ -61,6 +82,7 @@ const withFullScreenVideoPlayer = (Component) => {
       }
 
       if (!Document.fullScreenElement) {
+        // что значит не существует?
         this.setState({
           isFullscreen: false,
         });
@@ -101,15 +123,6 @@ const withFullScreenVideoPlayer = (Component) => {
       );
     }
   }
-
-  WithFullScreenVideoPlayer.propTypes = {
-    films: PropTypes.any,
-    poster: PropTypes.any,
-    videoLink: PropTypes.any,
-    match: PropTypes.any,
-    params: PropTypes.any,
-    id: PropTypes.any,
-  };
 
   return WithFullScreenVideoPlayer;
 };

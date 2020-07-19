@@ -1,10 +1,26 @@
-import React, {PureComponent} from 'react';
-import PropTypes from "prop-types";
+import * as React from "react";
+import {Subtract} from "utility-types";
 
 const PLAY_DELAY = 1000;
 
+interface State {
+  title: string;
+  poster: string;
+  timerId: any;
+  // как типизировать таймер?
+}
+
+interface InjectingProps {
+  title: string;
+  onFilmCardMouseEnter: () => void;
+  onFilmCardMouseLeave: () => void;
+}
+
 const withMoviesList = (Component) => {
-  class WithMoviesList extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectingProps>;
+
+  class WithMoviesList extends React.PureComponent<T, State> {
     constructor(props) {
       super(props);
 
@@ -62,12 +78,6 @@ const withMoviesList = (Component) => {
       />);
     }
   }
-
-  WithMoviesList.propTypes = {
-    title: PropTypes.any,
-    onFilmCardMouseEnter: PropTypes.any,
-    onFilmCardMouseLeave: PropTypes.any,
-  };
 
   return WithMoviesList;
 };

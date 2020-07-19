@@ -1,12 +1,17 @@
-import React from "react";
+import * as React from "react";
 import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
-import MoviesList from "../movies-list/movies-list.jsx";
-import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import MoviesList from "../movies-list/movies-list";
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list";
+import {Film} from "../../types";
 
 const MoviesListWrapped = withMoviesList(MoviesList);
 
-const MyList = (props) => {
+interface Props {
+  films: Film[];
+  onFilmCardClick: () => void;
+}
+
+const MyList: React.FunctionComponent<Props> = (props: Props) => {
 
   const {films, onFilmCardClick} = props;
 
@@ -54,11 +59,6 @@ const MyList = (props) => {
       </footer>
     </div>
   );
-};
-
-MyList.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFilmCardClick: PropTypes.func.isRequired,
 };
 
 export default MyList;

@@ -1,8 +1,15 @@
-import React, {PureComponent, Fragment} from "react";
-import PropTypes from "prop-types";
-import Comments from "../comments/comments.jsx";
+import * as React from "react";
+import Comments from "../comments/comments";
+import {Film, Review} from "../../types";
 
-class Tabs extends PureComponent {
+interface Props {
+  film: Film;
+  tabCurrent: string;
+  onTabClick: (tab: string) => void;
+  reviews: Review[];
+}
+
+class Tabs extends React.PureComponent<Props, {}> {
   constructor(props) {
     super(props);
 
@@ -73,9 +80,9 @@ class Tabs extends PureComponent {
             <strong>
             Starring: {starring.map((actor) => {
                 return (
-                  <Fragment key={actor}>
+                  <React.Fragment key={actor}>
                     {actor}{`, `}
-                  </Fragment>
+                  </React.Fragment>
                 );
               })}
             </strong>
@@ -98,9 +105,9 @@ class Tabs extends PureComponent {
                 <span className="movie-card__details-value">
                   {starring.map((actor) => {
                     return (
-                      <Fragment key={actor}>
+                      <React.Fragment key={actor}>
                         {actor} <br/>
-                      </Fragment>
+                      </React.Fragment>
                     );
                   })}
                 </span>
@@ -177,22 +184,5 @@ class Tabs extends PureComponent {
     );
   }
 }
-
-Tabs.propTypes = {
-  film: PropTypes.shape({
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    runTime: PropTypes.number.isRequired,
-    ratingScore: PropTypes.number.isRequired,
-    ratingCount: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    starring: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-  }),
-  tabCurrent: PropTypes.any,
-  onTabClick: PropTypes.any,
-  reviews: PropTypes.array,
-};
 
 export default Tabs;

@@ -1,19 +1,28 @@
-import React from "react";
+import * as React from "react";
 import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
-import Tabs from "../tabs/tabs.jsx";
-import withTabs from "../../hocs/with-tabs/with-tabs.js";
-import MoviesList from "../movies-list/movies-list.jsx";
-import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
-import history from "../../history.js";
-import {getCurentFilm} from "../../utils.js";
+import Tabs from "../tabs/tabs";
+import withTabs from "../../hocs/with-tabs/with-tabs";
+import MoviesList from "../movies-list/movies-list";
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list";
+import history from "../../history";
+import {getCurentFilm} from "../../utils";
+import {Film, Review} from "../../types";
+
+const MAX_FILMS_LENGHT = 4;
 
 const TabsWrapped = withTabs(Tabs);
 const MoviesListWrapped = withMoviesList(MoviesList);
 
-const MAX_FILMS_LENGHT = 4;
+interface Props {
+  films: Film[];
+  favoritesFilms: Film[];
+  reviews: Review[];
+  isAuthorized: boolean;
+  onAddButtonClick: (id: number, status: number) => void;
+  onFilmCardClick: () => void;
+}
 
-const MoviePage = (props) => {
+const MoviePage: React.FunctionComponent<Props> = (props: Props) => {
   const {films, favoritesFilms, reviews, isAuthorized, onAddButtonClick, onFilmCardClick} = props;
   const film = getCurentFilm(films, props);
   const {title, genre, year, poster, cover, id} = film;
@@ -170,28 +179,6 @@ const MoviePage = (props) => {
       </div>
     </>
   );
-};
-
-MoviePage.propTypes = {
-  film: PropTypes.shape({
-    title: PropTypes.string,
-    genre: PropTypes.string,
-    year: PropTypes.number,
-    poster: PropTypes.string,
-    cover: PropTypes.string,
-    ratingScore: PropTypes.number,
-    ratingCount: PropTypes.number,
-    textPartOne: PropTypes.string,
-    director: PropTypes.string.isRequired,
-    starring: PropTypes.array.isRequired,
-    id: PropTypes.number.isRequired,
-  }),
-  films: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesFilms: PropTypes.array,
-  isAuthorized: PropTypes.bool.isRequired,
-  onAddButtonClick: PropTypes.func.isRequired,
-  onFilmCardClick: PropTypes.func.isRequired,
-  reviews: PropTypes.array,
 };
 
 export default MoviePage;
