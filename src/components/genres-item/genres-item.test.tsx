@@ -1,8 +1,8 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
-import GenresItem from "./genres-item.jsx";
+import * as renderer from "react-test-renderer";
+import GenresItem from "./genres-item";
 
-const genre = `Drama`;
+const genre: string = `Drama`;
 
 it(`Render GenresItem`, () => {
   const tree = renderer

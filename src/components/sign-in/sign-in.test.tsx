@@ -1,8 +1,8 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
+import * as renderer from "react-test-renderer";
 import {Router} from "react-router-dom";
-import history from "../../history.js";
-import SingIn from "./sign-in.jsx";
+import history from "../../history";
+import SingIn from "./sign-in";
 
 it(`Render SingIn`, () => {
   const tree = renderer

@@ -12,7 +12,7 @@ const formatTime = (time) => {
 interface Props {
   isPlay: boolean;
   timeElapsed: number;
-  currentProgress: number;
+  currentProgress: string;
   onPlayPauseButtonClick: () => void;
   onFullScreenClick: () => void;
   children: React.ReactNode;

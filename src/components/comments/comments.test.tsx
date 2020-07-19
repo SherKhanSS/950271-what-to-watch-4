@@ -1,8 +1,9 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
-import Comments from "./comments.jsx";
+import * as renderer from "react-test-renderer";
+import Comments from "./comments";
+import {Review} from "../../types";
 
-const comments = [
+const comments: Review[] = [
   {
     id: 1,
     user: {

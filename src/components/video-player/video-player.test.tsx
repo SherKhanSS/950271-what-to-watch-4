@@ -1,9 +1,9 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
-import VideoPlayer from "./video-player.jsx";
+import * as renderer from "react-test-renderer";
+import VideoPlayer from "./video-player";
 
-const poster = `img/bohemian-rhapsody.jpg`;
-const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
+const poster: string = `img/bohemian-rhapsody.jpg`;
+const preview: string = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
 it(`Render VideoPlayer`, () => {
   const tree = renderer

@@ -1,9 +1,9 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
-import GenresList from "./genres-list.jsx";
+import * as renderer from "react-test-renderer";
+import GenresList from "./genres-list";
 
-const genres = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
-const currentGenre = `All genres`;
+const genres: string[] = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
+const currentGenre: string = `All genres`;
 
 it(`Render GenresList`, () => {
   const tree = renderer

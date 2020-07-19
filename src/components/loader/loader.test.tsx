@@ -1,6 +1,6 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
-import Loader from "./loader.jsx";
+import * as renderer from "react-test-renderer";
+import Loader from "./loader";
 
 it(`Render Loader`, () => {
   const tree = renderer
