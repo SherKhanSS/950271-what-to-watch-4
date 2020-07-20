@@ -9,7 +9,7 @@ interface Props {
   showSendError: boolean;
   onReviewSuccess: boolean;
   isSent: boolean;
-  id: number;
+  // id: number;
   onClosingReview: () => void;
   onSubmitReview: (id: number, {rating, comment}: {rating: string; comment: string}) => void;
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import MoviesList from "./movies-list";
 import {Film} from "../../types";
+import {noop} from "../../utils";
 
 const films: Film[] = [
   {
@@ -25,16 +26,16 @@ const films: Film[] = [
   },
 ];
 
-const title: string = `The Grand Budapest Hotel`;
+const title = `The Grand Budapest Hotel`;
 
 it(`Render MoviesList`, () => {
   const tree = renderer
     .create(<MoviesList
       films={films}
       title={title}
-      onFilmCardClick={() => {}}
-      onFilmCardMouseEnter={() => {}}
-      onFilmCardMouseLeave={() => {}}
+      onFilmCardClick={noop}
+      onFilmCardMouseEnter={noop}
+      onFilmCardMouseLeave={noop}
     />, {
       createNodeMock: () => {
         return {};

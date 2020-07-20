@@ -39,7 +39,7 @@ const Main: React.FunctionComponent<Props> = (props: Props) => {
   } = props;
   const {title, genre, year, cover, poster, id} = film;
 
-  let isFavorites = !favoritesFilms.find((movie) => movie.id === id);
+  const isFavorites = !favoritesFilms.find((movie) => movie.id === id);
 
   return (
     <>
@@ -116,7 +116,7 @@ const Main: React.FunctionComponent<Props> = (props: Props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-                    let status = isFavorites ? 1 : 0;
+                    const status = isFavorites ? 1 : 0;
                     onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">

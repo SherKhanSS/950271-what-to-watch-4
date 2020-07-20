@@ -4,6 +4,7 @@ import {Router} from "react-router-dom";
 import history from "../../history";
 import AddReview from "./add-review";
 import {Film} from "../../types";
+import {noop} from "../../utils";
 
 const films: Film[] = [{
   backgroundColor: `#BDAD8F`,
@@ -25,15 +26,19 @@ const films: Film[] = [{
   year: 2007,
 }];
 
-// const match: {
-//   params: {
-//       id: number,
-//   };
-// } = {
-//   params: {
-//     id: 1,
-//   }
-// };
+const match: {
+  params: {
+      id: number;
+  };
+} = {
+  params: {
+    id: 1,
+  }
+};
+
+const props = {
+  match,
+};
 
 it(`Render AddReview`, () => {
   const tree = renderer
@@ -42,14 +47,13 @@ it(`Render AddReview`, () => {
           history={history}
         >
           <AddReview
-            // match={match}
-            id={1}
+            {...props}
             films={films}
             showSendError={false}
             onReviewSuccess={false}
             isSent={false}
-            onSubmitReview={() => {}}
-            onClosingReview={() => {}}
+            onSubmitReview={noop}
+            onClosingReview={noop}
           />
         </Router>
         , {

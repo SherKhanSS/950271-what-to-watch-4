@@ -2,6 +2,7 @@ import * as React from "react";
 import * as renderer from "react-test-renderer";
 import Tabs from "./tabs";
 import {Film, Review} from "../../types";
+import {noop} from "../../utils";
 
 const reviews: Review[] = [
   {
@@ -36,13 +37,13 @@ const film: Film = {
   year: 2007,
 };
 
-const tabCurrent: string = `Overview`;
+const tabCurrent = `Overview`;
 
 it(`Render Tabs`, () => {
   const tree = renderer
     .create(<Tabs
       tabCurrent={tabCurrent}
-      onTabClick={() => {}}
+      onTabClick={noop}
       film={film}
       reviews={reviews}
     />)

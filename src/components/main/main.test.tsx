@@ -4,6 +4,7 @@ import {Router} from "react-router-dom";
 import history from "../../history";
 import Main from "./main";
 import {Film} from "../../types";
+import {noop} from "../../utils";
 
 const films: Film[] = [
   {
@@ -28,8 +29,8 @@ const films: Film[] = [
 ];
 
 const genres: string[] = [`Drama`, `Sci-Fi`, `Comedies`, `Crime`];
-const currentGenre: string = `All genres`;
-const filmsLength: number = 8;
+const currentGenre = `All genres`;
+const filmsLength = 8;
 
 it(`Render Main`, () => {
   const tree = renderer
@@ -45,10 +46,10 @@ it(`Render Main`, () => {
             currentGenre={currentGenre}
             filmsLength={filmsLength}
             isAuthorized={false}
-            onGenresItemClick={() => {}}
-            onShowMoreClick={() => {}}
-            onAddButtonClick={() => {}}
-            onFilmCardClick={() => {}}
+            onGenresItemClick={noop}
+            onShowMoreClick={noop}
+            onAddButtonClick={noop}
+            onFilmCardClick={noop}
           />
         </Router>
         , {

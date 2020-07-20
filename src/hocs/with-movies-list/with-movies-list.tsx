@@ -6,8 +6,7 @@ const PLAY_DELAY = 1000;
 interface State {
   title: string;
   poster: string;
-  timerId: any;
-  // как типизировать таймер?
+  timerId: NodeJS.Timer;
 }
 
 interface InjectingProps {

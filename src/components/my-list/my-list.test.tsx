@@ -4,6 +4,7 @@ import {Router} from "react-router-dom";
 import history from "../../history";
 import MyList from "./my-list";
 import {Film} from "../../types";
+import {noop} from "../../utils";
 
 const films: Film[] = [
   {
@@ -35,7 +36,7 @@ it(`Render MyList`, () => {
         >
           <MyList
             films={films}
-            onFilmCardClick={() => {}}
+            onFilmCardClick={noop}
           />
         </Router>
     )

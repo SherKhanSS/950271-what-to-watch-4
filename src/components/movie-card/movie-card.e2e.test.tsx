@@ -1,13 +1,13 @@
 import * as React from "react";
-import Enzyme, {shallow} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import {configure, shallow} from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 import MovieCard from "./movie-card";
 
-const title: string = `Bohemian Rhapsody`;
-const poster: string = `img/bohemian-rhapsody.jpg`;
-const preview: string = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
+const title = `Bohemian Rhapsody`;
+const poster = `img/bohemian-rhapsody.jpg`;
+const preview = `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`;
 
-Enzyme.configure({
+configure({
   adapter: new Adapter(),
 });
 

@@ -5,6 +5,7 @@ import configureStore from "redux-mock-store";
 import {App} from "./app";
 import NameSpace from "../../reducer/name-space";
 import {Film, Review} from "../../types";
+import {noop} from "../../utils";
 
 const mockStore = configureStore([]);
 
@@ -44,8 +45,8 @@ const reviews: Review[] = [
 ];
 
 const genres: string[] = [`All genres`];
-const currentGenre: string = `All genres`;
-const FILMS_LENGTH: number = 8;
+const currentGenre = `All genres`;
+const FILMS_LENGTH = 8;
 
 it(`Render App`, () => {
   const store = mockStore({
@@ -67,12 +68,12 @@ it(`Render App`, () => {
       reviews: [],
     }
   });
-// ошибка Тайпскрипт
+
   const tree = renderer
     .create(
         <Provider store={store}>
           <App
-            film={films[0]}
+            promoFilm={films[0]}
             films={films}
             reviews={reviews}
             genres={genres}
@@ -82,15 +83,15 @@ it(`Render App`, () => {
             showSendError={false}
             onReviewSuccess={false}
             authorizationStatus={`NO_AUTH`}
-            onGenresItemClick={() => {}}
-            onShowMoreClick={() => {}}
-            onPlayerExitClick={() => {}}
-            onAddButtonClick={() => {}}
-            login={() => {}}
-            sendReview={() => {}}
+            onGenresItemClick={noop}
+            onShowMoreClick={noop}
+            onPlayerExitClick={noop}
+            onAddButtonClick={noop}
+            login={noop}
+            sendReview={noop}
             isSent={false}
-            onFilmCardClick={() => {}}
-            onClosingReview={() => {}}
+            onFilmCardClick={noop}
+            onClosingReview={noop}
           />
         </Provider>, {
           createNodeMock: () => {

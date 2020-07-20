@@ -4,6 +4,7 @@ import {Router} from "react-router-dom";
 import history from "../../history";
 import MoviePage from "./movie-page";
 import {Film, Review} from "../../types";
+import {noop} from "../../utils";
 
 const films: Film[] = [
   {
@@ -40,15 +41,19 @@ const reviews: Review[] = [
   }
 ];
 
-// const match: {
-//   params: {
-//       id: number,
-//   };
-// } = {
-//   params: {
-//     id: 1,
-//   }
-// };
+const match: {
+  params: {
+      id: number;
+  };
+} = {
+  params: {
+    id: 1,
+  }
+};
+
+const props = {
+  match,
+};
 
 it(`Render MoviePage`, () => {
   const tree = renderer
@@ -57,13 +62,13 @@ it(`Render MoviePage`, () => {
           history={history}
         >
           <MoviePage
-            // match={match}
+            {...props}
             films={films}
             reviews={reviews}
             favoritesFilms={[]}
             isAuthorized={true}
-            onAddButtonClick={() => {}}
-            onFilmCardClick={() => {}}
+            onAddButtonClick={noop}
+            onFilmCardClick={noop}
           />
         </Router>
     )

@@ -2,9 +2,9 @@ import * as React from "react";
 import history from "../../history";
 
 const formatTime = (time) => {
-  let hours = Math.floor(time / 60 / 60);
-  let minutes = Math.floor(time / 60) - (hours * 60);
-  let seconds = time % 60;
+  const hours = Math.floor(time / 60 / 60);
+  const minutes = Math.floor(time / 60) - (hours * 60);
+  const seconds = time % 60;
 
   return `${hours}:${minutes}:${seconds}`;
 };

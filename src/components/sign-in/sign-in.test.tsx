@@ -3,6 +3,7 @@ import * as renderer from "react-test-renderer";
 import {Router} from "react-router-dom";
 import history from "../../history";
 import SingIn from "./sign-in";
+import {noop} from "../../utils";
 
 it(`Render SingIn`, () => {
   const tree = renderer
@@ -11,7 +12,7 @@ it(`Render SingIn`, () => {
           history={history}
         >
           <SingIn
-            onSubmit={() => {}}
+            onSubmit={noop}
           />
         </Router>, {
           createNodeMock: () => {

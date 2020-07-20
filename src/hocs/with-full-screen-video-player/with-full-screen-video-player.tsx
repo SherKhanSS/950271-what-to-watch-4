@@ -81,8 +81,7 @@ const withFullScreenVideoPlayer = (Component) => {
         video.requestFullscreen();
       }
 
-      if (!Document.fullScreenElement) {
-        // что значит не существует?
+      if (!document.fullscreenElement) {
         this.setState({
           isFullscreen: false,
         });

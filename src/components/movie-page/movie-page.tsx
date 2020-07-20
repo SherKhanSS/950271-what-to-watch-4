@@ -26,7 +26,7 @@ const MoviePage: React.FunctionComponent<Props> = (props: Props) => {
   const {films, favoritesFilms, reviews, isAuthorized, onAddButtonClick, onFilmCardClick} = props;
   const film = getCurentFilm(films, props);
   const {title, genre, year, poster, cover, id} = film;
-  let isFavorites = !favoritesFilms.find((movie) => movie.id === id);
+  const isFavorites = !favoritesFilms.find((movie) => movie.id === id);
 
   return (
     <>
@@ -104,7 +104,7 @@ const MoviePage: React.FunctionComponent<Props> = (props: Props) => {
                     if (!isAuthorized) {
                       history.push(`/login`);
                     }
-                    let status = isFavorites ? 1 : 0;
+                    const status = isFavorites ? 1 : 0;
                     onAddButtonClick(id, status);
                   }}
                   className="btn btn--list movie-card__button" type="button">
