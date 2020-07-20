@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render MoviesList 1`] = `
+<div
+  className="catalog__movies-list"
+>
+  <article
+    className="small-movie-card catalog__movies-card"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      className="small-movie-card__image"
+      onClick={[Function]}
+    >
+      <video
+        autoPlay={true}
+        muted={true}
+      />
+    </div>
+    <h3
+      className="small-movie-card__title"
+      onClick={[Function]}
+    >
+      <a
+        className="small-movie-card__link"
+        href="movie-page.html"
+      >
+        The Grand Budapest Hotel
+      </a>
+    </h3>
+  </article>
+</div>
+`;
